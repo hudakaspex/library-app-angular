@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
-      import("./layouts/admin-layout/admin-layout.module").then(
+      import("./core/layouts/admin-layout/admin-layout.module").then(
         (m) => m.AdminLayoutModule
       ),
   },

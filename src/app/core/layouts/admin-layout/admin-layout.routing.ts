@@ -7,7 +7,7 @@ export const AdminLayoutRoutes: Routes = [
         component: AdminLayoutComponent,
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'book' },
-            { path: 'book', loadChildren: () => import('../../pages/book-feature/book-feature.module').then(m => m.BookFeatureModule) },
+            { path: 'book', loadChildren: () => import('../../../features/book-feature/book-feature.module').then(m => m.BookFeatureModule) },
         ]
     }
 ];
