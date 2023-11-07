@@ -1,3 +1,1 @@
-<ng-container *ngIf="(books$ | async)"></ng-container>
-<app-book-list></app-book-list>
-<app-input-field></app-input-field>
+<app-book-list [books]="(books$ | async)" (onAdd)="onAddBook()"></app-book-list>

@@ -3,7 +3,7 @@ import { MatFormFieldAppearance } from "@angular/material/form-field";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
-  selector: "app-input-field",
+  selector: "input-field",
   templateUrl: "./input-field.component.html",
   styleUrls: ["./input-field.component.scss"],
   providers: [
@@ -20,6 +20,8 @@ export class InputFieldComponent implements OnInit {
   @Input() label: string;
 
   @Input() appearance: MatFormFieldAppearance = "fill";
+
+  @Input() type = "text";
 
   value: string = "";
 

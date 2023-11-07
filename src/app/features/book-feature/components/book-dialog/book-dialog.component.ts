@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Book } from '../../core/models/book.model';
 
 @Component({
   selector: 'app-book-dialog',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./book-dialog.component.scss']
 })
 export class BookDialogComponent implements OnInit {
+  public book: Book;
 
   constructor() { }
 
