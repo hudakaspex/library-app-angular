@@ -10,6 +10,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
 import { DialogModule } from "app/shared/dialog/dialog.module";
 import { BookDialogComponent } from "./components/book-dialog/book-dialog.component";
+import { DatepickerFieldModule } from "app/shared/datepicker-field/datepicker-field.module";
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "list" },
@@ -25,7 +26,8 @@ const routes: Routes = [
     FormsModule,
     MatTableModule,
     MatButtonModule,
-    DialogModule
+    DialogModule,
+    DatepickerFieldModule
   ],
   declarations: [
     BookListComponent, 

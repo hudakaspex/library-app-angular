@@ -1,39 +1,32 @@
 import { Component, Input, OnInit, forwardRef } from "@angular/core";
-import { MatFormFieldAppearance } from "@angular/material/form-field";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { MatFormFieldAppearance } from "@angular/material/form-field";
 
 @Component({
-  selector: "input-field",
-  templateUrl: "./input-field.component.html",
-  styleUrls: ["./input-field.component.scss"],
+  selector: "datepicker-field",
+  templateUrl: "./datepicker-field.component.html",
+  styleUrls: ["./datepicker-field.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputFieldComponent),
+      useExisting: forwardRef(() => DatepickerFieldComponent),
       multi: true,
     },
   ],
 })
-export class InputFieldComponent implements OnInit {
-  @Input() placeholder: string;
-
-  @Input() label: string;
-
+export class DatepickerFieldComponent implements OnInit {
+  @Input() label = "Choose a date";
+  @Input() date: any;
   @Input() appearance: MatFormFieldAppearance = "fill";
-
-  @Input() type = "text";
-
-  value: string = "";
 
   onChange: any = () => {};
   onTouched: any = () => {};
-
   constructor() {}
 
   ngOnInit() {}
 
   writeValue(value: any): void {
-    this.value = value;
+    this.date = value;
   }
 
   registerOnChange(fn: any): void {
@@ -48,8 +41,8 @@ export class InputFieldComponent implements OnInit {
     // Implement this method if your custom component should support disabling.
   }
 
-  onInput(event: Event): void {
-    this.value = (event.target as HTMLInputElement).value;
-    this.onChange(this.value);
+  onDateChange(event): void {
+    this.date = (event.target as HTMLInputElement).value;
+    this.onChange(this.date);
   }
 }
