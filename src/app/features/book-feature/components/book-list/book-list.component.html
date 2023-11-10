@@ -11,17 +11,25 @@
               </div>
             </h3>
             <table mat-table [dataSource]="dataSource" class="w-100">
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let val"> {{val?.name}} </td>
+              <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef>Title</th>
+                <td mat-cell *matCellDef="let val"> {{val?.title}} </td>
               </ng-container>
-              <ng-container matColumnDef="penerbit">
-                <th mat-header-cell *matHeaderCellDef>Penerbit</th>
-                <td mat-cell *matCellDef="let val"> {{val?.penerbit}} </td>
+              <ng-container matColumnDef="author">
+                <th mat-header-cell *matHeaderCellDef>Author</th>
+                <td mat-cell *matCellDef="let val"> {{val?.author}} </td>
               </ng-container>
-              <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let val"> {{val?.date}} </td>
+              <ng-container matColumnDef="ISBN">
+                <th mat-header-cell *matHeaderCellDef>ISBN</th>
+                <td mat-cell *matCellDef="let val"> {{val?.isbn}} </td>
+              </ng-container>
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <td mat-cell *matCellDef="let val"> {{val?.type}} </td>
+              </ng-container>
+              <ng-container matColumnDef="publicationDate">
+                <th mat-header-cell *matHeaderCellDef>Publication Date</th>
+                <td mat-cell *matCellDef="let val"> {{val?.publicationDate | date: 'dd MMM yyyy'}} </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,8 +1,8 @@
-<app-dialog dialogTitle="Add Book">
+<app-dialog dialogTitle="Add Book" (onSave)="onSave()" (onCancel)="onCancel()">
   <div CONTENT>
     <div class="row">
       <div class="col-6">
-        <input-field placeholder="Title" label="title"></input-field>
+        <input-field placeholder="Title" label="title" [(ngModel)]="book.title"></input-field>
       </div>
       <div class="col-6">
         <input-field placeholder="Author" label="Author"></input-field>
@@ -11,7 +11,10 @@
 
     <div class="row">
       <div class="col-6">
-        <datepicker-field></datepicker-field>
+        <datepicker-field label="Publicaton Date" [(ngModel)]="book.publicationDate"></datepicker-field>
+      </div>
+      <div class="col-6">
+        <input-field placeholder="ISBN" label="ISBN" [(ngModel)]="book.isbn"></input-field>
       </div>
     </div>
   </div>

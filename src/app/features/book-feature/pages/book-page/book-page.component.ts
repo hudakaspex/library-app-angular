@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../core/services/book.service';
-import { Observable } from 'rxjs';
+import { Observable, filter, map, switchMap } from 'rxjs';
 import { Book } from '../../core/models/book.model';
 import { MatDialog } from '@angular/material/dialog';
 import { BookDialogComponent } from '../../components/book-dialog/book-dialog.component';
@@ -24,8 +24,18 @@ export class BookPageComponent implements OnInit {
 
   public onAddBook() {
     this.dialog.open(BookDialogComponent, {
-      width: "700px"
+      width: "700px",
+      disableClose: true
     })
+    .afterClosed()
+    .pipe(
+      filter(val => val),
+      switchMap(book => this.bookService.addBook(book))
+    )
+    .subscribe(book => {
+      console.log(book);
+      this.books$ = this.bookService.getBooks();
+    });
   }
 
 }

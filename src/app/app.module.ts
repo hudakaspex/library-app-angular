@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
+    NgHttpLoaderModule.forRoot()
   ],
   declarations: [
     AppComponent,
