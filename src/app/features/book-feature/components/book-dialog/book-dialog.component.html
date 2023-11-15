@@ -17,5 +17,12 @@
         <input-field placeholder="ISBN" label="ISBN" [(ngModel)]="book.isbn"></input-field>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col">
+        <select-field [options]="typeOptions" [(ngModel)]="book.type"></select-field>
+      </div>
+      <div class="col"></div>
+    </div>
   </div>
 </app-dialog>

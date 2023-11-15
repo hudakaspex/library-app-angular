@@ -1,4 +1,4 @@
 export enum BookType {
-    SELF_DEVELOPMENT,
-    FICTION
+    SELF_DEVELOPMENT = "SELF_DEVELOPMENT",
+    FICTION = "FICTION"
 }

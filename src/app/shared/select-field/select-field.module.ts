@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     FormsModule
   ],
-  declarations: [SelectFieldComponent]
+  declarations: [SelectFieldComponent],
+  exports: [SelectFieldComponent]
 })
 export class SelectFieldModule { }

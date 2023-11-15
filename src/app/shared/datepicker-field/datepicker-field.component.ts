@@ -43,6 +43,11 @@ export class DatepickerFieldComponent implements OnInit {
 
   onDateChange(event): void {
     this.date = (event.target as HTMLInputElement).value;
-    this.onChange(this.date);
+    let utcDate: string;
+    if (this.date) {
+      utcDate = this.date.toISOString();
+      console.log(utcDate);
+    }
+    this.onChange(utcDate);
   }
 }

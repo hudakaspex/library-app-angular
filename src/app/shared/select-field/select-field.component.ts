@@ -2,7 +2,7 @@ import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'app-select-field',
+  selector: 'select-field',
   templateUrl: './select-field.component.html',
   styleUrls: ['./select-field.component.scss'],
   providers: [
@@ -16,6 +16,8 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 export class SelectFieldComponent implements OnInit {
   @Input() label: string;
   @Input() options: {value: any, label: string}[];
+  @Input() appearance = "fill";
+
   value: string = "";
   onChange: any = () => {};
   onTouched: any = () => {};
@@ -41,8 +43,8 @@ export class SelectFieldComponent implements OnInit {
     // Implement this method if your custom component should support disabling.
   }
 
-  onInput(event: Event): void {
-    this.value = (event.target as HTMLInputElement).value;
+  onSelectChange(value: any): void {
+    this.value = value;
     this.onChange(this.value);
   }
 }
