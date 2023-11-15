@@ -19,10 +19,9 @@
     </div>
 
     <div class="row">
-      <div class="col">
-        <select-field [options]="typeOptions" [(ngModel)]="book.type"></select-field>
+      <div class="col-6">
+        <select-field [options]="typeOptions" label="Book Type" [(ngModel)]="book.type"></select-field>
       </div>
-      <div class="col"></div>
     </div>
   </div>
 </app-dialog>

@@ -16,6 +16,10 @@ export class BookPageComponent implements OnInit {
   constructor(private bookService: BookService, private dialog: MatDialog) {}
 
   ngOnInit() {
+    this.initBooks();
+  }
+
+  private initBooks() {
     this.books$ = this.bookService.getBooks();
   }
 
@@ -31,14 +35,14 @@ export class BookPageComponent implements OnInit {
         switchMap((book) => this.bookService.addBook(book))
       )
       .subscribe((book) => {
-        this.books$ = this.bookService.getBooks();
+        this.initBooks();
       });
   }
 
   public onDelete(book: Book) {
     if (confirm(`Are you sure to delete book ${book.title}?`)) {
       this.bookService.deleteBook(book.id).subscribe(() => {
-        this.books$ = this.bookService.getBooks();
+        this.initBooks();
       });
     }
   }
@@ -56,7 +60,7 @@ export class BookPageComponent implements OnInit {
         switchMap((book) => this.bookService.updateBook(book))
       )
       .subscribe((book) => {
-        this.books$ = this.bookService.getBooks();
+        this.initBooks();
       });
   }
 }
