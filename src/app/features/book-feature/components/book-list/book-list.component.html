@@ -3,12 +3,20 @@
     <div class="row">
       <div class="col-12">
         <div class="card mt-0">
+
           <div class="card-body">
-            <h3 class="card-title font-weight-bold d-flex align-items-center justify-content-end">
+            <div class="card-title font-weight-bold d-flex align-items-center justify-content-between">
+              <div class="w-25">
+                <mat-form-field class="w-100">
+                  <mat-label>Search</mat-label>
+                  <input type="text" matInput placeholder="Search Book ...">
+                  <i class="fa fa-search" matSuffix></i>
+                </mat-form-field>
+              </div>
               <div>
                 <button mat-flat-button color="primary" (click)="onAdd()">Add</button>
               </div>
-            </h3>
+            </div>
             <table mat-table [dataSource]="dataSource" class="w-100">
               <ng-container matColumnDef="title">
                 <th mat-header-cell *matHeaderCellDef>Title</th>
@@ -44,7 +52,6 @@
                   </div>
                 </td>
               </ng-container>
-
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>

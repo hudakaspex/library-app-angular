@@ -13,6 +13,9 @@ import { BookDialogComponent } from "./components/book-dialog/book-dialog.compon
 import { DatepickerFieldModule } from "app/shared/datepicker-field/datepicker-field.module";
 import { SelectFieldModule } from "app/shared/select-field/select-field.module";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import {MatIconModule} from '@angular/material/icon';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "list" },
@@ -31,7 +34,9 @@ const routes: Routes = [
     DialogModule,
     DatepickerFieldModule,
     SelectFieldModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   declarations: [
     BookListComponent, 

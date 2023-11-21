@@ -1,11 +1,14 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { AppRoutingModule } from './app.routing';
-import { AppComponent } from './app.component';
-import { NgHttpLoaderModule } from 'ng-http-loader';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ErrorHandler, NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { RouterModule } from "@angular/router";
+import { AppRoutingModule } from "./app.routing";
+import { AppComponent } from "./app.component";
+import { NgHttpLoaderModule } from "ng-http-loader";
+import { InterceptorService } from "./core/services/interceptor.service";
+import { ToastrModule } from "ngx-toastr";
+import { ErrorHandlerService } from "./core/services/error-handler.service";
 
 @NgModule({
   imports: [
@@ -15,12 +18,23 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
-    NgHttpLoaderModule.forRoot()
+    NgHttpLoaderModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    }),
   ],
-  declarations: [
-    AppComponent,
+  declarations: [AppComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true,
+    },
+    {
+      provide: ErrorHandler,
+      useClass: ErrorHandlerService,
+    },
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
