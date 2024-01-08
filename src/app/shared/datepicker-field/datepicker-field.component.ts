@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, forwardRef } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { MatFormFieldAppearance } from "@angular/material/form-field";
+import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from "@angular/material/legacy-form-field";
 
 @Component({
   selector: "datepicker-field",

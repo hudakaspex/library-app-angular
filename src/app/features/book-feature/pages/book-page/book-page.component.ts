@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { BookService } from "../../core/services/book.service";
 import { Observable, filter, map, switchMap } from "rxjs";
 import { Book } from "../../core/models/book.model";
-import { MatDialog } from "@angular/material/dialog";
+import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
 import { BookDialogComponent } from "../../components/book-dialog/book-dialog.component";
 
 @Component({
