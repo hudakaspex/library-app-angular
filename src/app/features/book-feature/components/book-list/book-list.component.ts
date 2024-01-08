@@ -15,6 +15,7 @@ export class BookListComponent implements OnInit, OnChanges {
   @Output("onAdd") addEvent = new EventEmitter();
   @Output("onDelete") deleteEvent = new EventEmitter();
   @Output("onUpdate") updateEvent = new EventEmitter();
+  @Output("onSearch") searchEvent = new EventEmitter();
 
   public displayedColumns = ["title", "author", "ISBN", "type", "publicationDate", "delete"];
 
@@ -45,5 +46,10 @@ export class BookListComponent implements OnInit, OnChanges {
 
   public onUpdate(book: Book) {
     this.updateEvent.emit(book);
+  }
+
+  public onSearch(search) {
+    console.log(search);
+    this.searchEvent.emit(search);
   }
 }

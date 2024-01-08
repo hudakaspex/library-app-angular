@@ -20,7 +20,7 @@ export class BookPageComponent implements OnInit {
   }
 
   private initBooks() {
-    this.books$ = this.bookService.getBooks();
+    this.onSearch("");
   }
 
   public onAddBook() {
@@ -62,5 +62,9 @@ export class BookPageComponent implements OnInit {
       .subscribe((book) => {
         this.initBooks();
       });
+  }
+
+  public onSearch(value: string) {
+    this.books$ = this.bookService.searchByTitle(value);
   }
 }

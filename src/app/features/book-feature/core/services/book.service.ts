@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
 import { Observable, map } from "rxjs";
@@ -32,5 +32,13 @@ export class BookService {
 
   public updateBook(book: Book) {
     return this.httpClient.put(`${environment.serverUrl}/api/books/${book.id}`, book);
+  }
+
+  public searchByTitle(title: string): Observable<Book[]> {
+    let params = new HttpParams();
+    params = params.append("title", title);
+    params = params.append("pageSize", 2);
+    params = params.append("pageNumber", 1);
+    return this.httpClient.get<Book[]>(`${environment.serverUrl}/api/books`, {params});
   }
 }

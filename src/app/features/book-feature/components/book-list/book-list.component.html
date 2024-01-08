@@ -9,7 +9,7 @@
               <div class="w-25">
                 <mat-form-field class="w-100">
                   <mat-label>Search</mat-label>
-                  <input type="text" matInput placeholder="Search Book ...">
+                  <input type="text" matInput placeholder="Search Book ..." (input)="onSearch($event.target['value'])">
                   <i class="fa fa-search" matSuffix></i>
                 </mat-form-field>
               </div>
@@ -55,6 +55,8 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+            <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+            </mat-paginator>
           </div>
         </div>
       </div>
