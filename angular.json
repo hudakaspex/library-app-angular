@@ -1,9 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
   "projects": {
-    "material-dashboard-angular": {
+    "LibraryManagement": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -11,7 +10,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "/dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -83,14 +82,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "material-dashboard-angular:build"
+            "buildTarget": "LibraryManagement:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "material-dashboard-angular:build:production"
+              "buildTarget": "LibraryManagement:build:production"
             },
             "development": {
-              "buildTarget": "material-dashboard-angular:build:development"
+              "buildTarget": "LibraryManagement:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "material-dashboard-angular:build"
+            "buildTarget": "LibraryManagement:build"
           }
         },
         "test": {
@@ -141,7 +140,7 @@
         }
       }
     },
-    "material-dashboard-angular-e2e": {
+    "LibraryManagement-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -150,7 +149,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "material-dashboard-angular:serve"
+            "devServerTarget": "LibraryManagement:serve"
           }
         },
         "lint": {
@@ -168,7 +167,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
