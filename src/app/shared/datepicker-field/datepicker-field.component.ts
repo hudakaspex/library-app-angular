@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, forwardRef } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from "@angular/material/legacy-form-field";
+import { MatFormFieldAppearance } from "@angular/material/form-field";
 
 @Component({
   selector: "datepicker-field",
@@ -17,7 +17,8 @@ import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from "@angular
 export class DatepickerFieldComponent implements OnInit {
   @Input() label = "Choose a date";
   @Input() date: any;
-  @Input() appearance: MatFormFieldAppearance = "fill";
+  @Input() appearance: MatFormFieldAppearance = "outline";
+
 
   onChange: any = () => {};
   onTouched: any = () => {};

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, forwardRef } from "@angular/core";
-import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from "@angular/material/legacy-form-field";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { MatFormFieldAppearance } from "@angular/material/form-field";
 
 @Component({
   selector: "input-field",
@@ -19,7 +19,7 @@ export class InputFieldComponent implements OnInit {
 
   @Input() label: string;
 
-  @Input() appearance: MatFormFieldAppearance = "fill";
+  @Input() appearance: MatFormFieldAppearance = "outline";
 
   @Input() type = "text";
 

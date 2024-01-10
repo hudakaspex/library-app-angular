@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import { BookService } from "../../core/services/book.service";
 import { Book } from "../../core/models/book.model";
-import { MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 import { BookType } from "../../core/models/book-type.enum";
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: "app-book-list",
