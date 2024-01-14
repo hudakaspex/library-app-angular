@@ -1,4 +1,4 @@
-<mat-form-field [appearance]="appearance">
+<mat-form-field [appearance]="appearance" class="w-100">
   <mat-label>{{label}}</mat-label>
   <mat-select [(ngModel)]="value" (selectionChange)="onSelectChange($event.value)">
     <mat-option *ngFor="let val of options" [value]="val.value">

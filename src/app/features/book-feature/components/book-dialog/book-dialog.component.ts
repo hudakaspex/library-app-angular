@@ -2,11 +2,24 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Book } from '../../core/models/book.model';
 import { BookType } from '../../core/models/book-type.enum';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { DialogModule } from 'app/shared/dialog/dialog.module';
+import { InputFieldModule } from 'app/shared/input-field/input-field.module';
+import { SelectFieldModule } from 'app/shared/select-field/select-field.module';
 
 @Component({
   selector: 'app-book-dialog',
   templateUrl: './book-dialog.component.html',
-  styleUrls: ['./book-dialog.component.scss']
+  styleUrls: ['./book-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    CommonModule,
+    DialogModule,
+    InputFieldModule,
+    SelectFieldModule
+  ]
 })
 export class BookDialogComponent implements OnInit {
   public book: Book;

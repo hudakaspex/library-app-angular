@@ -37,8 +37,11 @@ export class BookService {
   public searchByTitle(title: string): Observable<Book[]> {
     let params = new HttpParams();
     params = params.append("title", title);
-    params = params.append("pageSize", 2);
-    params = params.append("pageNumber", 1);
-    return this.httpClient.get<Book[]>(`${environment.serverUrl}/api/books`, {params});
+    params = params.append("pageSize", 10);
+    params = params.append("pageNumber", 0);
+    return this.httpClient.get<Book[]>(`${environment.serverUrl}/api/books`, {params})
+    .pipe(
+      map((val: any) => val.data)
+    );
   }
 }

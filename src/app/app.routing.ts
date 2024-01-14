@@ -6,6 +6,11 @@ import { Routes, RouterModule } from "@angular/router";
 const routes: Routes = [
   {
     path: "",
+    pathMatch: "full",
+    redirectTo: ""
+  },
+  {
+    path: "",
     loadChildren: () =>
       import("./core/layouts/admin-layout/admin-layout.module").then(
         (m) => m.AdminLayoutModule
@@ -17,10 +22,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes, {
-      useHash: true,
-    }),
-  ],
-  exports: [],
+    RouterModule.forRoot(routes),
+  ]
 })
 export class AppRoutingModule {}

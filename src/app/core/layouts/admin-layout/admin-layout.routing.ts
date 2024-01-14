@@ -1,13 +1,16 @@
-import { Routes } from '@angular/router';
-import { AdminLayoutComponent } from './admin-layout.component';
+import { Routes } from "@angular/router";
+import { AdminLayoutComponent } from "./admin-layout.component";
 
 export const AdminLayoutRoutes: Routes = [
-    {
-        path: '',
-        component: AdminLayoutComponent,
-        children: [
-            { path: '', pathMatch: 'full', redirectTo: 'book' },
-            { path: 'book', loadChildren: () => import('../../../features/book-feature/book-feature.module').then(m => m.BookFeatureModule) },
-        ]
-    }
+  {
+    path: "",
+    component: AdminLayoutComponent,
+    children: [
+      {
+        path: "book",
+        loadComponent: () => import("../../../features/book-feature/pages/book-page/book-page.component")
+        .then((x) => x.BookPageComponent),
+      },
+    ],
+  },
 ];
