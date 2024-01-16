@@ -1,12 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { BookService } from "../../core/services/book.service";
-import { Observable, filter, switchMap } from "rxjs";
+import { Observable, filter, shareReplay, switchMap } from "rxjs";
 import { Book } from "../../core/models/book.model";
 import { BookDialogComponent } from "../../components/book-dialog/book-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { FormsModule } from "@angular/forms";
 import { BookListComponent } from "../../components/book-list/book-list.component";
 import { CommonModule } from "@angular/common";
+import { PageEvent } from "@angular/material/paginator";
+import { PaginationConfig } from "app/core/models/pagination-config";
 
 @Component({
   selector: "app-book-page",
@@ -15,16 +16,19 @@ import { CommonModule } from "@angular/common";
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     BookListComponent,
   ]
 })
 export class BookPageComponent implements OnInit {
-  public books$: Observable<Book[]>;
+  public books$: Observable<{
+    data: Book[],
+    total: number
+  }>;
 
   constructor(private bookService: BookService, private dialog: MatDialog) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.onSearch();
   }
 
   public onAddBook() {
@@ -68,9 +72,14 @@ export class BookPageComponent implements OnInit {
       });
   }
 
-  public onSearch(value = "") {
+  public onSearch(value = "", pageSize = PaginationConfig.pageSize, pageNumber = 0) {
     if (value.length >= 3 || value.length == 0) {
-      this.books$ = this.bookService.searchByTitle(value);
+      this.books$ = this.bookService.searchByTitle(value, pageSize, pageNumber)
+      .pipe(shareReplay(1));
     }
+  }
+
+  public paginationEvent(event: PageEvent) {
+    this.onSearch("", event.pageSize, event.pageIndex)
   }
 }

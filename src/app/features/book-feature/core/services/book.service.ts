@@ -1,23 +1,20 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
-import { Observable, map } from "rxjs";
+import { Observable, map, shareReplay } from "rxjs";
 import { Book } from "../models/book.model";
+import { PaginationConfig } from "app/core/models/pagination-config";
 
 @Injectable({
   providedIn: "root",
 })
 export class BookService {
-  
-  constructor(
-    private httpClient: HttpClient
-  ) {}
+  constructor(private httpClient: HttpClient) {}
 
   public getBooks(): Observable<Book[]> {
-    return this.httpClient.get(`${environment.serverUrl}/api/books`)
-    .pipe(
+    return this.httpClient.get(`${environment.serverUrl}/api/books`).pipe(
       map((books: Book[]) => {
-        return books.map(book => new Book(book))
+        return books.map((book) => new Book(book));
       })
     );
   }
@@ -31,17 +28,27 @@ export class BookService {
   }
 
   public updateBook(book: Book) {
-    return this.httpClient.put(`${environment.serverUrl}/api/books/${book.id}`, book);
+    return this.httpClient.put(
+      `${environment.serverUrl}/api/books/${book.id}`,
+      book
+    );
   }
 
-  public searchByTitle(title: string): Observable<Book[]> {
+  public searchByTitle(
+    title: string,
+    pageSize = PaginationConfig.pageSize,
+    pageNumber = 0
+  ): Observable<{
+    total: number;
+    data: Book[];
+  }> {
     let params = new HttpParams();
     params = params.append("title", title);
-    params = params.append("pageSize", 10);
-    params = params.append("pageNumber", 0);
-    return this.httpClient.get<Book[]>(`${environment.serverUrl}/api/books`, {params})
-    .pipe(
-      map((val: any) => val.data)
-    );
+    params = params.append("pageSize", pageSize);
+    params = params.append("pageNumber", pageNumber);
+    return this.httpClient.get<{
+      total: number;
+      data: Book[];
+    }>(`${environment.serverUrl}/api/books`, { params });
   }
 }
