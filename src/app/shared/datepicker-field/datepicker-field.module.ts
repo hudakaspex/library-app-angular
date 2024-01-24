@@ -17,6 +17,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
   ],
   declarations: [DatepickerFieldComponent],
-  exports: [DatepickerFieldComponent]
+  exports: [DatepickerFieldComponent],
 })
 export class DatepickerFieldModule { }

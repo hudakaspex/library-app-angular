@@ -9,6 +9,9 @@ import { NgHttpLoaderModule } from "ng-http-loader";
 import { InterceptorService } from "./core/services/interceptor.service";
 import { ToastrModule } from "ngx-toastr";
 import { ErrorHandlerService } from "./core/services/error-handler.service";
+import { BookDialogComponent } from "./features/book-feature/components/book-dialog/book-dialog.component";
+import { DatepickerFieldModule } from "./shared/datepicker-field/datepicker-field.module";
+import { provideNativeDateAdapter } from "@angular/material/core";
 
 @NgModule({
   imports: [
@@ -21,7 +24,7 @@ import { ErrorHandlerService } from "./core/services/error-handler.service";
     NgHttpLoaderModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
-    }),
+    })
   ],
   declarations: [AppComponent],
   providers: [
@@ -34,6 +37,7 @@ import { ErrorHandlerService } from "./core/services/error-handler.service";
       provide: ErrorHandler,
       useClass: ErrorHandlerService,
     },
+    provideNativeDateAdapter()
   ],
   bootstrap: [AppComponent],
 })

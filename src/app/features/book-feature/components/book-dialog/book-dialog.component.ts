@@ -7,6 +7,11 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'app/shared/dialog/dialog.module';
 import { InputFieldModule } from 'app/shared/input-field/input-field.module';
 import { SelectFieldModule } from 'app/shared/select-field/select-field.module';
+import { DatepickerFieldModule } from 'app/shared/datepicker-field/datepicker-field.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-book-dialog',
@@ -18,8 +23,9 @@ import { SelectFieldModule } from 'app/shared/select-field/select-field.module';
     CommonModule,
     DialogModule,
     InputFieldModule,
-    SelectFieldModule
-  ]
+    SelectFieldModule,
+    DatepickerFieldModule,
+  ],
 })
 export class BookDialogComponent implements OnInit {
   public book: Book;

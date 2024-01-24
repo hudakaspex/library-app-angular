@@ -1,3 +1,4 @@
+
 <app-book-list [books]="(books$ | async)?.data" [totalData]="(books$ | async)?.total" (onAdd)="onAddBook()"
     (onDelete)="onDelete($event)" (onUpdate)="onUpdate($event)" (onSearch)="onSearch($event)"
     (paginationEvent)="paginationEvent($event)">

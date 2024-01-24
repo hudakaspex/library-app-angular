@@ -13,14 +13,13 @@ import { Book } from "../../core/models/book.model";
 import { BookType } from "../../core/models/book-type.enum";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { debounceTime, distinctUntilChanged } from "rxjs";
+import { debounceTime, distinctUntilChanged, filter } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
-import { PaginationService } from "app/core/services/pagination.service";
 import { PaginationConfig } from "app/core/models/pagination-config";
 
 @Component({
@@ -101,7 +100,11 @@ export class BookListComponent implements OnInit, OnChanges {
 
   private initSearch() {
     this.searchCtrl.valueChanges
-      .pipe(distinctUntilChanged(), debounceTime(500))
+      .pipe(
+        distinctUntilChanged(), 
+        debounceTime(500),
+        filter(val => val.length >= 3 || val.length == 0)
+      )
       .subscribe((val) => {
         this.searchEvent.emit(val);
       });

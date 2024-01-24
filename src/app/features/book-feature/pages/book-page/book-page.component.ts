@@ -14,15 +14,12 @@ import { PaginationConfig } from "app/core/models/pagination-config";
   templateUrl: "./book-page.component.html",
   styleUrls: ["./book-page.component.scss"],
   standalone: true,
-  imports: [
-    CommonModule,
-    BookListComponent,
-  ]
+  imports: [CommonModule, BookListComponent],
 })
 export class BookPageComponent implements OnInit {
   public books$: Observable<{
-    data: Book[],
-    total: number
+    data: Book[];
+    total: number;
   }>;
 
   constructor(private bookService: BookService, private dialog: MatDialog) {}
@@ -72,14 +69,17 @@ export class BookPageComponent implements OnInit {
       });
   }
 
-  public onSearch(value = "", pageSize = PaginationConfig.pageSize, pageNumber = 0) {
-    if (value.length >= 3 || value.length == 0) {
-      this.books$ = this.bookService.searchByTitle(value, pageSize, pageNumber)
+  public onSearch(
+    value = "",
+    pageSize = PaginationConfig.pageSize,
+    pageNumber = 0
+  ) {
+    this.books$ = this.bookService
+      .searchByTitle(value, pageSize, pageNumber)
       .pipe(shareReplay(1));
-    }
   }
 
   public paginationEvent(event: PageEvent) {
-    this.onSearch("", event.pageSize, event.pageIndex)
+    this.onSearch("", event.pageSize, event.pageIndex);
   }
 }
