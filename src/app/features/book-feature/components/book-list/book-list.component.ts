@@ -8,7 +8,6 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { BookService } from "../../core/services/book.service";
 import { Book } from "../../core/models/book.model";
 import { BookType } from "../../core/models/book-type.enum";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Book } from '../../core/models/book.model';
 import { BookType } from '../../core/models/book-type.enum';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -8,10 +8,6 @@ import { DialogModule } from 'app/shared/dialog/dialog.module';
 import { InputFieldModule } from 'app/shared/input-field/input-field.module';
 import { SelectFieldModule } from 'app/shared/select-field/select-field.module';
 import { DatepickerFieldModule } from 'app/shared/datepicker-field/datepicker-field.module';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-book-dialog',
@@ -27,7 +23,7 @@ import { MatInputModule } from '@angular/material/input';
     DatepickerFieldModule,
   ],
 })
-export class BookDialogComponent implements OnInit {
+export class BookDialogComponent {
   public book: Book;
   public typeOptions = [
     { value: BookType.FICTION, label: "Fiction" },
@@ -40,8 +36,6 @@ export class BookDialogComponent implements OnInit {
   ) {
     this.book = data ? new Book(data) : new Book();
   }
-
-  ngOnInit() {}
 
   public onSave() {
     this.dialogRef.close(this.book);

@@ -1,14 +1,21 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
-import { Observable, map, shareReplay } from "rxjs";
+import { BehaviorSubject, Observable, map, shareReplay, switchMap } from "rxjs";
 import { Book } from "../models/book.model";
 import { PaginationConfig } from "app/core/models/pagination-config";
+import { PageEvent } from "app/core/models/page-event";
 
 @Injectable({
   providedIn: "root",
 })
 export class BookService {
+  private _searchBook: BehaviorSubject<PageEvent> = new BehaviorSubject({
+    pageNumber: 0,
+    pageSize: PaginationConfig.pageSize,
+    search: "",
+  });
+
   constructor(private httpClient: HttpClient) {}
 
   public getBooks(): Observable<Book[]> {
@@ -34,21 +41,40 @@ export class BookService {
     );
   }
 
-  public searchByTitle(
-    title: string,
-    pageSize = PaginationConfig.pageSize,
-    pageNumber = 0
-  ): Observable<{
+  public books$(): Observable<{
     total: number;
     data: Book[];
   }> {
-    let params = new HttpParams();
-    params = params.append("title", title);
-    params = params.append("pageSize", pageSize);
-    params = params.append("pageNumber", pageNumber);
-    return this.httpClient.get<{
-      total: number;
-      data: Book[];
-    }>(`${environment.serverUrl}/api/books`, { params });
+    return this._searchBook.asObservable().pipe(
+      switchMap((pageEvent: PageEvent) => {
+        let params = new HttpParams();
+        params = params.append("title", pageEvent.search);
+        params = params.append("pageSize", pageEvent.pageSize);
+        params = params.append("pageNumber", pageEvent.pageNumber);
+        return this.httpClient.get<{
+          total: number;
+          data: Book[];
+        }>(`${environment.serverUrl}/api/books`, { params });
+      })
+    );
+  }
+
+  public updatePagination(
+    pageSize = this._searchBook.value.pageSize,
+    pageNumber = this._searchBook.value.pageNumber
+  ) {
+    this._searchBook.next({
+      search: this._searchBook.value.search,
+      pageSize: pageSize,
+      pageNumber: pageNumber,
+    });
+  }
+
+  public searchBook(search = this._searchBook.value.search) {
+    this._searchBook.next({
+      search: search,
+      pageSize: this._searchBook.value.pageSize,
+      pageNumber: this._searchBook.value.pageNumber,
+    });
   }
 }

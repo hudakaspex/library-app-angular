@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { BookService } from "../../core/services/book.service";
 import { Observable, filter, shareReplay, switchMap } from "rxjs";
 import { Book } from "../../core/models/book.model";
@@ -7,7 +7,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { BookListComponent } from "../../components/book-list/book-list.component";
 import { CommonModule } from "@angular/common";
 import { PageEvent } from "@angular/material/paginator";
-import { PaginationConfig } from "app/core/models/pagination-config";
 
 @Component({
   selector: "app-book-page",
@@ -16,16 +15,14 @@ import { PaginationConfig } from "app/core/models/pagination-config";
   standalone: true,
   imports: [CommonModule, BookListComponent],
 })
-export class BookPageComponent implements OnInit {
+export class BookPageComponent {
   public books$: Observable<{
     data: Book[];
     total: number;
   }>;
 
-  constructor(private bookService: BookService, private dialog: MatDialog) {}
-
-  ngOnInit(): void {
-    this.onSearch();
+  constructor(private bookService: BookService, private dialog: MatDialog) {
+    this.books$ = this.bookService.books$().pipe(shareReplay(1));
   }
 
   public onAddBook() {
@@ -40,14 +37,14 @@ export class BookPageComponent implements OnInit {
         switchMap((book) => this.bookService.addBook(book))
       )
       .subscribe((book) => {
-        this.onSearch();
+        this.bookService.searchBook();
       });
   }
 
   public onDelete(book: Book) {
     if (confirm(`Are you sure to delete book ${book.title}?`)) {
       this.bookService.deleteBook(book.id).subscribe(() => {
-        this.onSearch();
+        this.bookService.searchBook();
       });
     }
   }
@@ -65,21 +62,15 @@ export class BookPageComponent implements OnInit {
         switchMap((book) => this.bookService.updateBook(book))
       )
       .subscribe((book) => {
-        this.onSearch();
+        this.bookService.searchBook();
       });
   }
 
-  public onSearch(
-    value = "",
-    pageSize = PaginationConfig.pageSize,
-    pageNumber = 0
-  ) {
-    this.books$ = this.bookService
-      .searchByTitle(value, pageSize, pageNumber)
-      .pipe(shareReplay(1));
+  public onSearchBook(search: string) {
+    this.bookService.searchBook(search);
   }
 
   public paginationEvent(event: PageEvent) {
-    this.onSearch("", event.pageSize, event.pageIndex);
+    this.bookService.updatePagination(event.pageSize, event.pageIndex);
   }
 }
