@@ -5,10 +5,14 @@
     </div>
     <div class="main-panel pt-0">
         <app-navbar></app-navbar>
-        <router-outlet></router-outlet>
-            <!-- <app-footer></app-footer> -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <!-- <app-footer></app-footer> -->
     </div>
-    <div class="fixed-plugin">
+    <!-- <div class="fixed-plugin">
         <div class="dropdown show-dropdown open show">
             <a href="#" data-toggle="dropdown" aria-expanded="true">
                 <i class="fa fa-cog fa-2x"> </i>
@@ -50,6 +54,5 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 </div>
-

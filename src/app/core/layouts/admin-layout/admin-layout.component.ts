@@ -153,5 +153,4 @@ export class AdminLayoutComponent implements OnInit {
       }
       return bool;
   }
-
 }

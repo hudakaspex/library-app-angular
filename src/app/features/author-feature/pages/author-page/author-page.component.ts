@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { AuthorListComponent } from '../../components/author-list/author-list.component';
 
 @Component({
   selector: 'app-author-page',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./author-page.component.scss'],
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    AuthorListComponent
   ]
 })
 export class AuthorPageComponent implements OnInit {
