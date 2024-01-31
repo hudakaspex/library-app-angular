@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { GeneralTableComponent } from 'app/shared/general-table/general-table.component';
+import { TableColumn } from 'app/shared/general-table/models/table-column.model';
 
 @Component({
   selector: 'app-author-list',
@@ -14,19 +9,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrls: ['./author-list.component.scss'],
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    FormsModule,
     CommonModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatPaginatorModule,
-    MatTooltipModule,
-    MatInputModule,
-    MatButtonModule,
+    GeneralTableComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthorListComponent implements OnInit {
+  columns: TableColumn[] = [
+    { label: 'Name', propName: 'name', type: 'text' },
+    { label: 'Email', propName: 'email', type: 'text' },
+    { label: 'Address', propName: 'address', type: 'text' },
+    { label: 'Phone', propName: 'phone', type: 'text' },
+  ];
+
+  data = [];
 
   constructor() { }
 

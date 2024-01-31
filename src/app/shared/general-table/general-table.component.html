@@ -21,33 +21,31 @@
           </div>
         </div>
         <table mat-table [dataSource]="dataSource" class="w-100">
-          <ng-container *ngfor="let column of columns">
-            <ng-container *ngIf="column !== 'action' else ACTION_COLUMN">
-              <ng-container [matColumnDef]="column.propName">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let data"> {{data?.propName}} </td>
-              </ng-container>
+          <ng-container *ngFor="let column of columns">
+            <ng-container [matColumnDef]="column.propName">
+              <th mat-header-cell *matHeaderCellDef>{{column.label}}</th>
+              <td mat-cell *matCellDef="let data"> {{data?.propName}} </td>
             </ng-container>
+          </ng-container>
 
-            <ng-template #ACTION_COLUMN>
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let data">
-                  <div class="d-flex align-items-center justify-content-center">
-                    <ng-container *ngIf="hasDeleteBtn">
-                      <button mat-icon-button (click)="onDelete(data)" matTooltip="Delete">
-                        <i class="fa fa-trash text-danger"></i>
-                      </button>
-                    </ng-container>
-                    <ng-container *ngIf="hasUpdateBtn">
-                      <button mat-icon-button (click)="onUpdate(data)" matTooltip="Update">
-                        <i class="fa fa-pencil text-primary"></i>
-                      </button>
-                    </ng-container>
-                  </div>
-                </td>
-              </ng-container>
-            </ng-template>
+          <ng-container *ngIf="hasDeleteBtn || hasUpdateBtn">
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let data">
+                <div class="d-flex align-items-center justify-content-center">
+                  <ng-container *ngIf="hasDeleteBtn">
+                    <button mat-icon-button (click)="onDelete(data)" matTooltip="Delete">
+                      <i class="fa fa-trash text-danger"></i>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="hasUpdateBtn">
+                    <button mat-icon-button (click)="onUpdate(data)" matTooltip="Update">
+                      <i class="fa fa-pencil text-primary"></i>
+                    </button>
+                  </ng-container>
+                </div>
+              </td>
+            </ng-container>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
