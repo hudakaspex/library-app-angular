@@ -13,7 +13,12 @@ import { PageEvent } from "@angular/material/paginator";
   templateUrl: "./book-page.component.html",
   styleUrls: ["./book-page.component.scss"],
   standalone: true,
-  imports: [CommonModule, BookListComponent],
+  imports: [
+    CommonModule, BookListComponent
+  ],
+  providers: [
+    BookService
+  ]
 })
 export class BookPageComponent {
   public books$: Observable<{

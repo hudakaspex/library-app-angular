@@ -16,6 +16,11 @@ export const AdminLayoutRoutes: Routes = [
         loadComponent: () => import("../../../features/book-feature/pages/book-page/book-page.component")
         .then((x) => x.BookPageComponent),
       },
+      {
+        path: "author",
+        loadComponent: () => import("../../../features/author-feature/pages/author-page/author-page.component")
+        .then((x) => x.AuthorPageComponent),
+      },
     ],
   },
 ];

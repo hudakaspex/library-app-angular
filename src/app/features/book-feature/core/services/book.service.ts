@@ -6,9 +6,7 @@ import { Book } from "../models/book.model";
 import { PaginationConfig } from "app/core/models/pagination-config";
 import { PageEvent } from "app/core/models/page-event";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class BookService {
   private _searchBook: BehaviorSubject<PageEvent> = new BehaviorSubject({
     pageNumber: 0,

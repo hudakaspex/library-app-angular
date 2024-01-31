@@ -1,6 +1,5 @@
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ErrorHandler, NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { AppRoutingModule } from "./app.routing";
@@ -9,15 +8,11 @@ import { NgHttpLoaderModule } from "ng-http-loader";
 import { InterceptorService } from "./core/services/interceptor.service";
 import { ToastrModule } from "ngx-toastr";
 import { ErrorHandlerService } from "./core/services/error-handler.service";
-import { BookDialogComponent } from "./features/book-feature/components/book-dialog/book-dialog.component";
-import { DatepickerFieldModule } from "./shared/datepicker-field/datepicker-field.module";
 import { provideNativeDateAdapter } from "@angular/material/core";
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
