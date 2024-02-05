@@ -1,20 +1,19 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
-import { BehaviorSubject, Observable, map, shareReplay, switchMap } from "rxjs";
+import { Observable, map, switchMap } from "rxjs";
 import { Book } from "../models/book.model";
-import { PaginationConfig } from "app/core/models/pagination-config";
 import { PageEvent } from "app/core/models/page-event";
+import { PaginationService } from "app/core/services/pagination.service";
+import { PageService } from "app/core/services/page.service";
 
 @Injectable()
 export class BookService {
-  private _searchBook: BehaviorSubject<PageEvent> = new BehaviorSubject({
-    pageNumber: 0,
-    pageSize: PaginationConfig.pageSize,
-    search: "",
-  });
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private pageService: PageService
+  ) {}
 
   public getBooks(): Observable<Book[]> {
     return this.httpClient.get(`${environment.serverUrl}/api/books`).pipe(
@@ -43,7 +42,7 @@ export class BookService {
     total: number;
     data: Book[];
   }> {
-    return this._searchBook.asObservable().pipe(
+    return this.pageService.page$.pipe(
       switchMap((pageEvent: PageEvent) => {
         let params = new HttpParams();
         params = params.append("title", pageEvent.search);
@@ -58,21 +57,13 @@ export class BookService {
   }
 
   public updatePagination(
-    pageSize = this._searchBook.value.pageSize,
-    pageNumber = this._searchBook.value.pageNumber
+    pageSize: number,
+    pageNumber: number
   ) {
-    this._searchBook.next({
-      search: this._searchBook.value.search,
-      pageSize: pageSize,
-      pageNumber: pageNumber,
-    });
+    this.pageService.updatePagination(pageSize, pageNumber);
   }
 
-  public searchBook(search = this._searchBook.value.search) {
-    this._searchBook.next({
-      search: search,
-      pageSize: this._searchBook.value.pageSize,
-      pageNumber: this._searchBook.value.pageNumber,
-    });
+  public searchBook(search = this.pageService.page.search) {
+    this.pageService.updateSearch(search);
   }
 }

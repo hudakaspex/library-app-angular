@@ -7,6 +7,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { BookListComponent } from "../../components/book-list/book-list.component";
 import { CommonModule } from "@angular/common";
 import { PageEvent } from "@angular/material/paginator";
+import { PaginationService } from "app/core/services/pagination.service";
 
 @Component({
   selector: "app-book-page",
@@ -17,7 +18,8 @@ import { PageEvent } from "@angular/material/paginator";
     CommonModule, BookListComponent
   ],
   providers: [
-    BookService
+    BookService,
+    PaginationService
   ]
 })
 export class BookPageComponent {
