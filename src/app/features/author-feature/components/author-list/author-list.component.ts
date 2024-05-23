@@ -32,10 +32,10 @@ export class AuthorListComponent implements OnInit {
   constructor(
     public pageService: PageService
   ) {
-    pageService.initSearchCtrl();
-    pageService.searchResult$
-    .pipe(
-    )
+    // pageService.initSearchCtrl();
+    // pageService.searchResult$
+    // .pipe(
+    // )
   }
 
   ngOnInit() {

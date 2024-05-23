@@ -13,15 +13,7 @@ export const AdminLayoutRoutes: Routes = [
       },
       {
         path: "book",
-        loadComponent: async () => {
-          try {
-            const m = await import("../../../features/book-feature/pages/book-page/book-page.component");
-            return m.BookPageComponent;
-          } catch (err) {
-            console.error('Error loading AdminComponent', err);
-            throw err;
-          }
-        }
+        loadComponent: () => import("../../../features/book-feature/pages/book-page/book-page.component").then((x) => x.BookPageComponent),
       },
       {
         path: "author",
