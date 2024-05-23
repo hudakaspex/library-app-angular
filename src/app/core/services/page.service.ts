@@ -3,7 +3,9 @@ import { PaginationConfig } from "../models/pagination-config";
 import { BehaviorSubject } from "rxjs";
 import { PageEvent } from "../models/page-event";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class PageService {
   private _pageSubject: BehaviorSubject<PageEvent> = new BehaviorSubject({
     pageNumber: 0,

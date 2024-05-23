@@ -4,7 +4,6 @@ import { environment } from "environments/environment";
 import { Observable, map, switchMap } from "rxjs";
 import { Book } from "../models/book.model";
 import { PageEvent } from "app/core/models/page-event";
-import { PaginationService } from "app/core/services/pagination.service";
 import { PageService } from "app/core/services/page.service";
 
 @Injectable()

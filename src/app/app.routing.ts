@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
+import { AppComponent } from "./app.component";
 
 const routes: Routes = [
   {
@@ -11,11 +12,17 @@ const routes: Routes = [
   },
   {
     path: "",
-    loadChildren: () =>
-      import("./core/layouts/admin-layout/admin-layout.module").then(
-        (m) => m.AdminLayoutModule
-      ),
-  },
+    component: AppComponent,
+    children: [
+      {
+        path: "",
+        loadChildren: () =>
+          import("./core/layouts/admin-layout/admin-layout.module").then(
+            (m) => m.AdminLayoutModule
+          ),
+      },
+    ]
+  }
 ];
 
 @NgModule({

@@ -17,10 +17,10 @@ export class ErrorHandlerService implements ErrorHandler {
   }
 
   handleError(error: any): void {
-    console.error(JSON.stringify(error));
+    console.error(error, "ERROR HANDLER");
    // Check if it's an error from an HTTP response
     if (!(error instanceof HttpErrorResponse)) {
-      this.showToastr(`Javascript error: ${JSON.stringify(error)}`);
+      // this.showToastr(`Javascript error: ${error}`);
       return;
     }
     this.showToastr((error as HttpErrorResponse).error.message);

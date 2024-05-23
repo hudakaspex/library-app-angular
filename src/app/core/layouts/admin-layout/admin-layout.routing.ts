@@ -13,13 +13,19 @@ export const AdminLayoutRoutes: Routes = [
       },
       {
         path: "book",
-        loadComponent: () => import("../../../features/book-feature/pages/book-page/book-page.component")
-        .then((x) => x.BookPageComponent),
+        loadComponent: async () => {
+          try {
+            const m = await import("../../../features/book-feature/pages/book-page/book-page.component");
+            return m.BookPageComponent;
+          } catch (err) {
+            console.error('Error loading AdminComponent', err);
+            throw err;
+          }
+        }
       },
       {
         path: "author",
-        loadComponent: () => import("../../../features/author-feature/pages/author-page/author-page.component")
-        .then((x) => x.AuthorPageComponent),
+        loadComponent: () => import("../../../features/author-feature/pages/author-page/author-page.component").then((x) => x.AuthorPageComponent),
       },
     ],
   },

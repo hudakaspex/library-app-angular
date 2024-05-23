@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import { BookService } from "../../core/services/book.service";
 import { Observable, filter, shareReplay, switchMap } from "rxjs";
 import { Book } from "../../core/models/book.model";
@@ -15,7 +15,8 @@ import { PaginationService } from "app/core/services/pagination.service";
   styleUrls: ["./book-page.component.scss"],
   standalone: true,
   imports: [
-    CommonModule, BookListComponent
+    CommonModule, 
+    BookListComponent
   ],
   providers: [
     BookService,
