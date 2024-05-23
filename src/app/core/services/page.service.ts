@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { PaginationConfig } from "../models/pagination-config";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, Observable } from "rxjs";
 import { PageEvent } from "../models/page-event";
+import { FormControl } from "@angular/forms";
 
 @Injectable({
   providedIn: "root"
@@ -15,11 +16,14 @@ export class PageService {
 
   public readonly page$ = this._pageSubject.asObservable();
 
+  public readonly searchCtrl = new FormControl();
+  public searchResult$: Observable<string>;
+
   public get page() {
     return this._pageSubject.value;
   }
 
-  constructor() {}
+  constructor() { }
 
   public updatePagination(
     pageSize = this._pageSubject.value.pageSize,
@@ -39,4 +43,15 @@ export class PageService {
       search,
     });
   }
+
+  public initSearchCtrl() {
+    this.searchResult$ = this.searchCtrl.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(500),
+        filter(val => val.length >= 3 || val.length == 0)
+      );
+  }
+
+
 }
