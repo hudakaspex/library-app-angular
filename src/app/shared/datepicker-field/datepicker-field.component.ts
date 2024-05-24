@@ -1,6 +1,10 @@
+import { CommonModule } from "@angular/common";
 import { Component, Input, OnInit, forwardRef } from "@angular/core";
-import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { MatFormFieldAppearance } from "@angular/material/form-field";
+import { FormsModule, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldAppearance, MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 
 @Component({
   selector: "datepicker-field",
@@ -13,6 +17,15 @@ import { MatFormFieldAppearance } from "@angular/material/form-field";
       multi: true,
     },
   ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    FormsModule,
+  ]
 })
 export class DatepickerFieldComponent implements OnInit {
   @Input() label = "Choose a date";

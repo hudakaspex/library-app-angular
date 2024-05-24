@@ -4,10 +4,10 @@ import { BookType } from '../../core/models/book-type.enum';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { DialogModule } from 'app/shared/dialog/dialog.module';
-import { InputFieldModule } from 'app/shared/input-field/input-field.module';
-import { SelectFieldModule } from 'app/shared/select-field/select-field.module';
-import { DatepickerFieldModule } from 'app/shared/datepicker-field/datepicker-field.module';
+import { DialogComponent } from 'app/shared/dialog/dialog.component';
+import { InputFieldComponent } from 'app/shared/input-field/input-field.component';
+import { SelectFieldComponent } from 'app/shared/select-field/select-field.component';
+import { DatepickerFieldComponent } from 'app/shared/datepicker-field/datepicker-field.component';
 
 @Component({
   selector: 'app-book-dialog',
@@ -17,10 +17,10 @@ import { DatepickerFieldModule } from 'app/shared/datepicker-field/datepicker-fi
   imports: [
     FormsModule,
     CommonModule,
-    DialogModule,
-    InputFieldModule,
-    SelectFieldModule,
-    DatepickerFieldModule,
+    InputFieldComponent,
+    SelectFieldComponent,
+    DatepickerFieldComponent,
+    DialogComponent
   ],
 })
 export class BookDialogComponent {

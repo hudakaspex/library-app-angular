@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { PaginationConfig } from "../models/pagination-config";
-import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, Observable } from "rxjs";
+import { BehaviorSubject, map } from "rxjs";
 import { PageEvent } from "../models/page-event";
-import { FormControl } from "@angular/forms";
+import { HttpParams } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root"
@@ -13,45 +13,38 @@ export class PageService {
     pageSize: PaginationConfig.pageSize,
     search: "",
   });
-
-  public readonly page$ = this._pageSubject.asObservable();
-
-  public readonly searchCtrl = new FormControl();
-  public searchResult$: Observable<string>;
+  
+  public readonly page$ = this._pageSubject.asObservable()
+    .pipe(
+      map(pageEvent => {
+        let params = new HttpParams();
+        params = params.append("pageSize", pageEvent.pageSize);
+        params = params.append("pageNumber", pageEvent.pageNumber);
+        return params;
+      })
+    );
 
   public get page() {
     return this._pageSubject.value;
   }
 
-  constructor() { }
-
   public updatePagination(
-    pageSize = this._pageSubject.value.pageSize,
-    pageNumber = this._pageSubject.value.pageNumber
+    pageSize = this.page.pageSize,
+    pageNumber = this.page.pageNumber
   ): void {
     this._pageSubject.next({
       pageNumber,
       pageSize,
-      search: this._pageSubject.value.search,
+      search: this.page.search,
     });
   }
 
-  public updateSearch(search = this._pageSubject.value.search): void {
+  // used when table has pagination
+  public onSearch(search = this.page.search): void {
     this._pageSubject.next({
-      pageNumber: this._pageSubject.value.pageNumber,
-      pageSize: this._pageSubject.value.pageSize,
+      pageNumber: this.page.pageNumber,
+      pageSize: this.page.pageSize,
       search,
     });
   }
-
-  public initSearchCtrl() {
-    this.searchResult$ = this.searchCtrl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(500),
-        filter(val => val.length >= 3 || val.length == 0)
-      );
-  }
-
-
 }

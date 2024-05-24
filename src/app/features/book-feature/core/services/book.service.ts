@@ -8,14 +8,15 @@ import { PageService } from "app/core/services/page.service";
 
 @Injectable()
 export class BookService {
+  private bookApi = "/api/books";
 
   constructor(
     private httpClient: HttpClient,
     private pageService: PageService
-  ) {}
+  ) { }
 
   public getBooks(): Observable<Book[]> {
-    return this.httpClient.get(`${environment.serverUrl}/api/books`).pipe(
+    return this.httpClient.get(`${environment.serverUrl}${this.bookApi}`).pipe(
       map((books: Book[]) => {
         return books.map((book) => new Book(book));
       })
@@ -23,16 +24,16 @@ export class BookService {
   }
 
   public addBook(book: Book) {
-    return this.httpClient.post(`${environment.serverUrl}/api/books`, book);
+    return this.httpClient.post(`${environment.serverUrl}${this.bookApi}`, book);
   }
 
   public deleteBook(id: number) {
-    return this.httpClient.delete(`${environment.serverUrl}/api/books/${id}`);
+    return this.httpClient.delete(`${environment.serverUrl}${this.bookApi}/${id}`);
   }
 
   public updateBook(book: Book) {
     return this.httpClient.put(
-      `${environment.serverUrl}/api/books/${book.id}`,
+      `${environment.serverUrl}${this.bookApi}/${book.id}`,
       book
     );
   }
@@ -42,15 +43,12 @@ export class BookService {
     data: Book[];
   }> {
     return this.pageService.page$.pipe(
-      switchMap((pageEvent: PageEvent) => {
-        let params = new HttpParams();
-        params = params.append("title", pageEvent.search);
-        params = params.append("pageSize", pageEvent.pageSize);
-        params = params.append("pageNumber", pageEvent.pageNumber);
+      switchMap((params: HttpParams) => {
+        params = params.append("title", this.pageService.page.search);
         return this.httpClient.get<{
           total: number;
           data: Book[];
-        }>(`${environment.serverUrl}/api/books`, { params });
+        }>(`${environment.serverUrl}${this.bookApi}`, { params });
       })
     );
   }
@@ -63,6 +61,6 @@ export class BookService {
   }
 
   public searchBook(search = this.pageService.page.search) {
-    this.pageService.updateSearch(search);
+    this.pageService.onSearch(search);
   }
 }

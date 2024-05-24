@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DatepickerFieldComponent } from 'app/shared/datepicker-field/datepicker-field.component';
+import { DialogComponent } from 'app/shared/dialog/dialog.component';
+import { InputFieldComponent } from 'app/shared/input-field/input-field.component';
+import { SelectFieldComponent } from 'app/shared/select-field/select-field.component';
 
 @Component({
   selector: 'app-author-dialog',
@@ -7,7 +12,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./author-dialog.component.scss'],
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    DialogComponent,
+    InputFieldComponent,
+    FormsModule,
+    DatepickerFieldComponent,
+    SelectFieldComponent
   ]
 })
 export class AuthorDialogComponent implements OnInit {
@@ -15,6 +25,12 @@ export class AuthorDialogComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public onSave() {
+  }
+
+  public onCancel() {
   }
 
 }

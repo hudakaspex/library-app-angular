@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnInit,
@@ -20,6 +21,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { PaginationConfig } from "app/core/models/pagination-config";
+import { PageService } from "app/core/services/page.service";
+import { Utils } from "app/shared/utils";
 
 @Component({
   selector: "app-book-list",
@@ -99,11 +102,7 @@ export class BookListComponent implements OnInit, OnChanges {
 
   private initSearch() {
     this.searchCtrl.valueChanges
-      .pipe(
-        distinctUntilChanged(), 
-        debounceTime(500),
-        filter(val => val.length >= 3 || val.length == 0)
-      )
+      .pipe(Utils.searchPipe())
       .subscribe((val) => {
         this.searchEvent.emit(val);
       });

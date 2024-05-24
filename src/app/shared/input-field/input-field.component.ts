@@ -1,6 +1,8 @@
+import { CommonModule } from "@angular/common";
 import { Component, Input, OnInit, forwardRef } from "@angular/core";
-import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { MatFormFieldAppearance } from "@angular/material/form-field";
+import { FormsModule, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { MatFormFieldAppearance, MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 
 @Component({
   selector: "input-field",
@@ -13,6 +15,13 @@ import { MatFormFieldAppearance } from "@angular/material/form-field";
       multi: true,
     },
   ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule
+  ]
 })
 export class InputFieldComponent implements OnInit {
   @Input() placeholder: string;

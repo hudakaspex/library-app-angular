@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { GeneralTableComponent } from 'app/shared/general-table/general-table.component';
 import { TableColumn } from 'app/shared/general-table/models/table-column.model';
 import { AuthorService } from '../../core/services/author.service';
 import { Author } from '../../core/models/author.model';
-import { Observable } from 'rxjs';
+import { map, Observable, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-author-page',
@@ -20,8 +20,7 @@ import { Observable } from 'rxjs';
   ]
 })
 export class AuthorPageComponent implements OnInit {
-  private authorService: AuthorService = Inject(AuthorService);
-  
+  private authorService: AuthorService = inject(AuthorService);
   public columns: TableColumn[] = [
     { label: 'Name', propName: 'name', type: 'text' },
     { label: 'Email', propName: 'email', type: 'text' },
@@ -29,10 +28,18 @@ export class AuthorPageComponent implements OnInit {
     { label: 'Phone', propName: 'phone', type: 'text' },
   ];
   public authors$: Observable<Author[]>;
+  public totalData$: Observable<number>;
 
-  constructor() { }
+  constructor() {
+    const authorData$ = this.authorService.authors$().pipe(shareReplay(1));
+    this.authors$ = authorData$.pipe(map(res => res.data));
+    this.totalData$ = authorData$.pipe(map(res => res.total));
+  }
 
   ngOnInit() {
+  }
+
+  public onAddEvent() {
   }
 
 }

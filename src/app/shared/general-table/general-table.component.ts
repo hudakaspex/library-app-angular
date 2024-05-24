@@ -18,6 +18,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { PaginationConfig } from "app/core/models/pagination-config";
 import { debounceTime, distinctUntilChanged, filter } from "rxjs";
+import { Utils } from "../utils";
 
 @Component({
   selector: "app-general-table",
@@ -57,10 +58,8 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   public dataSource = new MatTableDataSource<any>([]);
   public displayedColumns: string[];
 
-  constructor() {}
-
   ngOnInit() {
-    if (this.hasPaginator) {
+    if (this.hasSearchInput) {
       this.initSearch();
     }
   }
@@ -101,11 +100,7 @@ export class GeneralTableComponent implements OnInit, OnChanges {
 
   private initSearch() {
     this.searchCtrl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(500),
-        filter((val) => val.length >= 3 || val.length == 0)
-      )
+      .pipe(Utils.searchPipe())
       .subscribe((val) => {
         this.searchEvent.emit(val);
       });

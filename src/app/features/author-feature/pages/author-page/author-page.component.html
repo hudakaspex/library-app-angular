@@ -1,1 +1,6 @@
-<app-general-table [data]="authors$ | async" [columns]="columns"></app-general-table>
+<app-general-table 
+    [data]="authors$ | async" 
+    [totalData]="totalData$ | async"
+    (onAdd)="onAddEvent()"
+    [columns]="columns">
+</app-general-table>

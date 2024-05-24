@@ -1,3 +1,11 @@
-<p>
-  author-dialog works!
-</p>
+<app-dialog dialogTitle="Author" (onSave)="onSave()" (onCancel)="onCancel()">
+  <div CONTENT>
+    <div class="row">
+      <div class="col-6">
+      </div>
+      <div class="col-6">
+        <input-field placeholder="Author" label="Author"></input-field>
+      </div>
+    </div>
+  </div>
+</app-dialog>
