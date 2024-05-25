@@ -1,4 +1,7 @@
 <mat-form-field class="w-100" [appearance]="appearance">
   <mat-label>{{label}}</mat-label>
   <input matInput [type]="type" [placeholder]="placeholder" [(ngModel)]="value" (input)="onInput($event)">
+  @if (isError) {
+  <mat-error>{{ errorMessage }}</mat-error>
+  }
 </mat-form-field>

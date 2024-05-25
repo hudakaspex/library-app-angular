@@ -1,10 +1,14 @@
-import { Validators } from "@angular/forms";
+export interface FieldValidator {
+    type: 'required' | 'email' | 'min' | 'max';
+    message: string;
+    value?: any
+}
 
 interface FormFieldConfig {
     name: string,
     label: string,
     placeholder?: string,
-    validators?: Validators,
+    validators?: FieldValidator[],
     value?: any,
     cssClass?: string
 }

@@ -4,7 +4,15 @@
             @switch (field.type) {
                 @case ('input') {
                     <div [class]="field.cssClass ? field.cssClass : 'col-6'">
-                        <input-field [type]="field.fieldType" [label]="field.label" [placeholder]="field.placeholder" [formControlName]="field.name"></input-field>
+                        <input-field 
+                            [type]="field.fieldType" 
+                            [label]="field.label" 
+                            [placeholder]="field.placeholder" 
+                            [formControlName]="field.name"
+                            [isError]="form.get(field.name)?.invalid"
+                            [errorMessage]="getErrorMessage(field)"
+                            >
+                        </input-field>
                     </div>
                 }
                 @case ('textarea') {

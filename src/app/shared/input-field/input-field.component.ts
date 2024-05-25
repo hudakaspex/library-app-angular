@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnInit, forwardRef } from "@angular/core";
+import { Component, Input, OnInit, forwardRef, signal } from "@angular/core";
 import { FormsModule, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatFormFieldAppearance, MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
@@ -25,12 +25,11 @@ import { MatInputModule } from "@angular/material/input";
 })
 export class InputFieldComponent implements OnInit {
   @Input() placeholder: string;
-
   @Input() label: string;
-
   @Input() appearance: MatFormFieldAppearance = "outline";
-
   @Input() type = "text";
+  @Input() isError = false;
+  @Input() errorMessage: string;
 
   value: string = "";
 
