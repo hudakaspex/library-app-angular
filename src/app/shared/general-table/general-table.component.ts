@@ -17,7 +17,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { PaginationConfig } from "app/core/models/pagination-config";
-import { debounceTime, distinctUntilChanged, filter } from "rxjs";
 import { Utils } from "../utils";
 
 @Component({

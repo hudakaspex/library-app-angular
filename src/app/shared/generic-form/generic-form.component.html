@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+        @for(field of fieldConfigs; track field.name) {
+            @switch (field.type) {
+                @case ('input') {
+                    <input-field></input-field>
+                }
+                @case ('textarea') {
+                }
+                @case ('select') {
+                }
+                @case ('checkbox') {
+                }
+                @case ('date') {
+                }
+                @case ('radio') {
+                }
+            }
+        }
+    </div>
+</form>
