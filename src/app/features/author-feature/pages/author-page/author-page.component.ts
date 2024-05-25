@@ -5,6 +5,8 @@ import { TableColumn } from 'app/shared/general-table/models/table-column.model'
 import { AuthorService } from '../../core/services/author.service';
 import { Author } from '../../core/models/author.model';
 import { map, Observable, shareReplay } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthorDialogComponent } from '../../components/author-dialog/author-dialog.component';
 
 @Component({
   selector: 'app-author-page',
@@ -13,7 +15,8 @@ import { map, Observable, shareReplay } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    GeneralTableComponent
+    GeneralTableComponent,
+    AuthorDialogComponent
   ],
   providers: [
     AuthorService
@@ -21,6 +24,8 @@ import { map, Observable, shareReplay } from 'rxjs';
 })
 export class AuthorPageComponent implements OnInit {
   private authorService: AuthorService = inject(AuthorService);
+  private dialog = inject(MatDialog);
+
   public columns: TableColumn[] = [
     { label: 'Name', propName: 'name', type: 'text' },
     { label: 'Email', propName: 'email', type: 'text' },
@@ -40,6 +45,18 @@ export class AuthorPageComponent implements OnInit {
   }
 
   public onAddEvent() {
+    this.dialog.open(AuthorDialogComponent, {
+      width: "700px",
+      disableClose: true,
+    })
   }
 
+  public onUpdateEvent(author: Author) {
+  }
+
+  public onDeleteEvent() {
+  }
+
+  public onPaginationEvent() {
+  }
 }

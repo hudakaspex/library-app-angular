@@ -1,0 +1,4 @@
+<mat-form-field class="w-100" [appearance]="appearance">
+  <mat-label>{{label}}</mat-label>
+  <textarea [disabled]="disabled" type="text" matInput [placeholder]="placeholder" [(ngModel)]="value" (input)="onInput($event)"></textarea>
+</mat-form-field>

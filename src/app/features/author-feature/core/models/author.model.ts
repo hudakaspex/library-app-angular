@@ -6,7 +6,7 @@ export class Author {
     email: string;
     phone: string;
     
-    constructor(author: Author) {
+    constructor(author?: Author) {
         if (author) {
             this.id = author.id;
             this.name = author.name;
