@@ -8,4 +8,12 @@ export abstract class Utils {
             filter((val: string) => val.length >= 3 || val.length == 0)
         );
     }
+
+    static isNotEmpty(val: any): boolean {
+        let isNotEmpty = false;
+        if (val == null || val == undefined || val == "") {
+            isNotEmpty = true;
+        }
+        return isNotEmpty;
+    }
 }
