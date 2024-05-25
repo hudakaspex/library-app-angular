@@ -1,23 +1,5 @@
 <app-dialog dialogTitle="Author" (onSave)="onSave()" (onCancel)="onCancel()">
   <div CONTENT>
-    <div class="row">
-      <div class="col-6">
-        <input-field placeholder="Name" label="Name" [(ngModel)]="author().name"></input-field>
-      </div>
-      <div class="col-6">
-        <datepicker-field label="Birthdate" [(ngModel)]="author().birthDate"></datepicker-field>
-      </div>
-      <div class="col-6">
-        <input-field placeholder="Email" label="Email" [(ngModel)]="author().email"></input-field>
-      </div>
-      <div class="col-6">
-        <input-field placeholder="Phone" label="Phone" [(ngModel)]="author().phone"></input-field>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <textarea-field placeholder="Address" label="Address" [(ngModel)]="author().address"></textarea-field>
-      </div>
-    </div>
+    <generic-form [fieldConfigs]="formConfig"></generic-form>
   </div>
 </app-dialog>

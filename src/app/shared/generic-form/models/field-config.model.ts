@@ -3,13 +3,15 @@ import { Validators } from "@angular/forms";
 interface FormFieldConfig {
     name: string,
     label: string,
-    placeholder: string,
+    placeholder?: string,
     validators?: Validators,
-    value: any
+    value?: any,
+    cssClass?: string
 }
 
 interface FieldInput extends FormFieldConfig {
     type: 'input',
+    fieldType: 'text' | 'number' | 'phone' | 'email'
 }
 
 interface FieldSelect extends FormFieldConfig {

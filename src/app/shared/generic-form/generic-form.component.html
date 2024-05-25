@@ -3,17 +3,28 @@
         @for(field of fieldConfigs; track field.name) {
             @switch (field.type) {
                 @case ('input') {
-                    <input-field></input-field>
+                    <div [class]="field.cssClass ? field.cssClass : 'col-6'">
+                        <input-field [type]="field.fieldType" [label]="field.label" [placeholder]="field.placeholder" [formControlName]="field.name"></input-field>
+                    </div>
                 }
                 @case ('textarea') {
+                    <div [class]="field.cssClass ? field.cssClass : 'col-6'">
+                        <textarea-field [label]="field.label" [placeholder]="field.placeholder" [formControlName]="field.name"/>
+                    </div>
                 }
                 @case ('select') {
+                    <div [class]="field.cssClass ? field.cssClass : 'col-6'">
+                    <select-field [options]="field.options" [label]="field.label" [formControlName]="field.name"></select-field>
+                    </div>
+                }
+                @case ('radio') {
                 }
                 @case ('checkbox') {
                 }
                 @case ('date') {
-                }
-                @case ('radio') {
+                    <div [class]="field.cssClass ? field.cssClass : 'col-6'">
+                        <datepicker-field [formControlName]="field.name" [label]="field.label"></datepicker-field>
+                    </div>
                 }
             }
         }
