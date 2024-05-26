@@ -1,5 +1,9 @@
 <app-dialog dialogTitle="Author" (onSave)="onSave()" (onCancel)="onCancel()">
   <div CONTENT>
-    <generic-form [fieldConfigs]="formConfig"></generic-form>
+    <generic-form 
+      [fieldConfigs]="formConfig" 
+      (submitForm)="onSave()"
+      (formChanges)="author.set($event)"
+    ></generic-form>
   </div>
 </app-dialog>

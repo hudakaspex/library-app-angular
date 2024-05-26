@@ -29,38 +29,7 @@ import { FieldConfig } from 'app/shared/generic-form/models/field-config.model';
 })
 export class AuthorDialogComponent {
   public author: WritableSignal<Author>;
-  public formConfig: FieldConfig[] = [
-    {
-      type: 'input',
-      fieldType: 'text',
-      label: 'Name',
-      name: 'name',
-      placeholder: 'Name',
-    },
-    {
-      type: 'date',
-      label: 'Birthdate',
-      name: 'birthdate',
-    },
-    {
-      type: 'input',
-      label: 'Email',
-      name: 'email',
-      fieldType: 'email'
-    },
-    {
-      type: 'input',
-      label: 'Phone',
-      name: 'phone',
-      fieldType: 'phone'
-    },
-    {
-      type: 'textarea',
-      label: 'Address',
-      name: 'address',
-      cssClass: 'col-12'
-    },
-  ]
+  public formConfig: FieldConfig[] = []
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Author,
@@ -68,6 +37,50 @@ export class AuthorDialogComponent {
   ) {
     const author = this.data ? this.data : new Author();
     this.author = signal(author);
+    this.initFormConfig();
+  }
+
+  private initFormConfig() {
+    this.formConfig = [
+      {
+        type: 'input',
+        fieldType: 'text',
+        label: 'Name',
+        name: 'name',
+        placeholder: 'Name',
+        validators: [
+          { type: 'required', message: 'Name is required' }
+        ],
+        value: this.author().name
+      },
+      {
+        type: 'date',
+        label: 'Birthdate',
+        name: 'birthdate',
+        value: this.author().birthDate
+      },
+      {
+        type: 'input',
+        label: 'Email',
+        name: 'email',
+        fieldType: 'email',
+        value: this.author().email
+      },
+      {
+        type: 'input',
+        label: 'Phone',
+        name: 'phone',
+        fieldType: 'phone',
+        value: this.author().phone
+      },
+      {
+        type: 'textarea',
+        label: 'Address',
+        name: 'address',
+        cssClass: 'col-12',
+        value: this.author().address
+      },
+    ]
   }
 
   public onSave() {

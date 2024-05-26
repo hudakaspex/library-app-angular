@@ -18,6 +18,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 })
 export class DialogComponent implements OnInit {
   @Input('dialogTitle') title = "New Form";
+  @Input() disabledSave = false;
 
   @Output("onCancel") cancelEvent = new EventEmitter();
 

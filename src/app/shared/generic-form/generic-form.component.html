@@ -1,40 +1,34 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
         @for(field of fieldConfigs; track field.name) {
-            @switch (field.type) {
-                @case ('input') {
-                    <div [class]="field.cssClass ? field.cssClass : 'col-6'">
-                        <input-field 
-                            [type]="field.fieldType" 
-                            [label]="field.label" 
-                            [placeholder]="field.placeholder" 
-                            [formControlName]="field.name"
-                            [isError]="form.get(field.name)?.invalid"
-                            [errorMessage]="getErrorMessage(field)"
-                            >
-                        </input-field>
-                    </div>
-                }
-                @case ('textarea') {
-                    <div [class]="field.cssClass ? field.cssClass : 'col-6'">
-                        <textarea-field [label]="field.label" [placeholder]="field.placeholder" [formControlName]="field.name"/>
-                    </div>
-                }
-                @case ('select') {
-                    <div [class]="field.cssClass ? field.cssClass : 'col-6'">
-                    <select-field [options]="field.options" [label]="field.label" [formControlName]="field.name"></select-field>
-                    </div>
-                }
-                @case ('radio') {
-                }
-                @case ('checkbox') {
-                }
-                @case ('date') {
-                    <div [class]="field.cssClass ? field.cssClass : 'col-6'">
-                        <datepicker-field [formControlName]="field.name" [label]="field.label"></datepicker-field>
-                    </div>
-                }
-            }
+        @switch (field.type) {
+        @case ('input') {
+        <div [class]="field.cssClass ? field.cssClass : 'col-6'">
+            <input-field [type]="field.fieldType" [label]="field.label" [placeholder]="field.placeholder"
+                [formControlName]="field.name" [errorMessage]="getErrorMessage(field)">
+            </input-field>
+        </div>
+        }
+        @case ('textarea') {
+        <div [class]="field.cssClass ? field.cssClass : 'col-6'">
+            <textarea-field [label]="field.label" [placeholder]="field.placeholder" [formControlName]="field.name" />
+        </div>
+        }
+        @case ('select') {
+        <div [class]="field.cssClass ? field.cssClass : 'col-6'">
+            <select-field [options]="field.options" [label]="field.label" [formControlName]="field.name"></select-field>
+        </div>
+        }
+        @case ('radio') {
+        }
+        @case ('checkbox') {
+        }
+        @case ('date') {
+        <div [class]="field.cssClass ? field.cssClass : 'col-6'">
+            <datepicker-field [formControlName]="field.name" [label]="field.label"></datepicker-field>
+        </div>
+        }
+        }
         }
     </div>
 </form>

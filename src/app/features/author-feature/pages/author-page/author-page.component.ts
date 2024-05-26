@@ -49,6 +49,10 @@ export class AuthorPageComponent implements OnInit {
       width: "700px",
       disableClose: true,
     })
+    .afterClosed()
+    .subscribe(author => {
+      console.log(author);
+    });
   }
 
   public onUpdateEvent(author: Author) {

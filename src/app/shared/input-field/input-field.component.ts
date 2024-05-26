@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnInit, forwardRef, signal } from "@angular/core";
-import { FormsModule, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { Component, Injector, Input, OnInit, forwardRef, inject } from "@angular/core";
+import { ControlValueAccessor, FormControl, FormControlDirective, FormControlName, FormGroupDirective, FormsModule, NG_VALUE_ACCESSOR, NgControl, NgModel, ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldAppearance, MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 
@@ -20,28 +20,30 @@ import { MatInputModule } from "@angular/material/input";
     CommonModule,
     MatInputModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
-export class InputFieldComponent implements OnInit {
+export class InputFieldComponent implements ControlValueAccessor, OnInit {
+  private injector = inject(Injector);
   @Input() placeholder: string;
   @Input() label: string;
   @Input() appearance: MatFormFieldAppearance = "outline";
   @Input() type = "text";
-  @Input() isError = false;
   @Input() errorMessage: string;
+  formControl: FormControl;
 
-  value: string = "";
+  onChange: any = () => { };
+  onTouched: any = () => { };
 
-  onChange: any = () => {};
-  onTouched: any = () => {};
-
-  constructor() {}
-
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.getFormControl();
+  }
 
   writeValue(value: any): void {
-    this.value = value;
+    if (this.formControl) {
+      this.formControl.setValue(value);
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -57,7 +59,25 @@ export class InputFieldComponent implements OnInit {
   }
 
   onInput(event: Event): void {
-    this.value = (event.target as HTMLInputElement).value;
-    this.onChange(this.value);
+    this.onChange(this.formControl.value);
+  }
+
+  private getFormControl() {
+    const ngControl = this.injector.get(NgControl);
+    switch (ngControl?.constructor) {
+      case NgModel: {
+        const { control, update } = ngControl as NgModel;
+        this.formControl = control;
+        break;
+      }
+      case FormControlName: {
+        this.formControl = this.injector.get(FormGroupDirective).getControl(ngControl as FormControlName);
+        break;
+      }
+      default: {
+        this.formControl = (ngControl as FormControlDirective).form as FormControl;
+        break;
+      }
+    }
   }
 }

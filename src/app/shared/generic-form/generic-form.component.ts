@@ -30,6 +30,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class GenericFormComponent {
     @Output() submitForm = new EventEmitter(true);
     @Output() formChanges = new EventEmitter(true);
+    @Output() formStatus = new EventEmitter(false);
 
     private formBuilder = inject(FormBuilder);
     public form = this.formBuilder.group({});
@@ -48,7 +49,10 @@ export class GenericFormComponent {
                 filter(form => Utils.isNotEmpty(form)),
                 takeUntilDestroyed()
             )
-            .subscribe(form => this.formChanges.emit(form))
+            .subscribe((form: AbstractControl) => {
+                this.formChanges.emit(form.value);
+                this.formStatus.emit(form.valid);
+            })
     }
 
     private initFormGroup() {
@@ -60,7 +64,7 @@ export class GenericFormComponent {
         });
     }
 
-    private bindValidators(validators: FieldValidator[]): any {
+    private bindValidators(validators: FieldValidator[] = []): any {
         if (validators.length > 0) {
             const validatorList = validators.map(validator => {
                 if (validator.type === 'required') {
