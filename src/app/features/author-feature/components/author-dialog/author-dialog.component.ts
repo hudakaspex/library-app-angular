@@ -84,6 +84,7 @@ export class AuthorDialogComponent {
   }
 
   public onSave() {
+    console.log(this.author());
     this.dialogRef.close(this.author());
   }
 

@@ -46,12 +46,12 @@ export class GenericFormComponent {
     constructor() {
         this.form.valueChanges
             .pipe(
-                filter(form => Utils.isNotEmpty(form)),
+                filter(form => !Utils.isEmpty(form)),
                 takeUntilDestroyed()
             )
-            .subscribe((form: AbstractControl) => {
-                this.formChanges.emit(form.value);
-                this.formStatus.emit(form.valid);
+            .subscribe((form: any) => {
+                this.formChanges.emit(form);
+                this.formStatus.emit(this.form.valid);
             })
     }
 

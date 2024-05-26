@@ -9,11 +9,11 @@ export abstract class Utils {
         );
     }
 
-    static isNotEmpty(val: any): boolean {
-        let isNotEmpty = false;
+    static isEmpty(val: any): boolean {
+        let isEmpty = false;
         if (val == null || val == undefined || val == "") {
-            isNotEmpty = true;
+            isEmpty = true;
         }
-        return isNotEmpty;
+        return isEmpty;
     }
 }
