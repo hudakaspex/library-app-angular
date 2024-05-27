@@ -2,6 +2,6 @@
   <mat-label>{{label}}</mat-label>
   <input matInput [type]="type" [placeholder]="placeholder" [formControl]="formControl" (input)="onInput($event)">
   @if (formControl?.invalid && formControl?.touched) {
-  <mat-error>{{ errorMessage }}</mat-error>
+    <mat-error>{{ errorMessage }}</mat-error>
   }
 </mat-form-field>

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, Component, forwardRef, inject, Injector, Input, OnInit } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldAppearance, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Utils } from '../utils';
 
 @Component({
   selector: 'textarea-field',
@@ -13,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    ReactiveFormsModule
   ],
   providers: [
     {
@@ -23,18 +24,22 @@ import { MatInputModule } from '@angular/material/input';
     },
   ],
 })
-export class TextareaFieldComponent implements ControlValueAccessor {
+export class TextareaFieldComponent implements ControlValueAccessor, OnInit {
+  private injector = inject(Injector);
   @Input() placeholder: string;
   @Input() label: string;
   @Input() appearance: MatFormFieldAppearance = "outline";
-  public value: string = "";
-  public disabled = false;
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  @Input() errorMessage: string;
+  public formControl: FormControl;
+  onChange: any = () => { };
+  onTouched: any = () => { };
 
+  ngOnInit(): void {
+    this.formControl = Utils.getFormControl(this.injector);
+  }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.formControl.setValue(value);
   }
 
   registerOnChange(fn: any): void {
@@ -46,12 +51,16 @@ export class TextareaFieldComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    if (isDisabled) {
+      this.formControl.disable({onlySelf: isDisabled})
+    }
+    else {
+      this.formControl.enable({onlySelf: isDisabled})
+    }
   }
 
   onInput(event: Event): void {
-    this.value = (event.target as HTMLInputElement).value;
-    this.onChange(this.value);
+    this.onChange(this.formControl.value);
   }
 
 }

@@ -57,7 +57,10 @@ export class AuthorDialogComponent {
         type: 'date',
         label: 'Birthdate',
         name: 'birthdate',
-        value: this.author().birthDate
+        value: this.author().birthDate,
+        validators: [
+          { type: 'required', message: 'Date is required' }
+        ],
       },
       {
         type: 'input',
@@ -78,13 +81,15 @@ export class AuthorDialogComponent {
         label: 'Address',
         name: 'address',
         cssClass: 'col-12',
-        value: this.author().address
+        value: this.author().address,
+        validators: [
+          { type: 'required', message: 'Address is required' }
+        ],
       },
     ]
   }
 
   public onSave() {
-    console.log(this.author());
     this.dialogRef.close(this.author());
   }
 

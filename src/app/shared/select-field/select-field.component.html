@@ -1,8 +1,11 @@
 <mat-form-field [appearance]="appearance" class="w-100">
   <mat-label>{{label}}</mat-label>
-  <mat-select [(ngModel)]="value" (selectionChange)="onSelectChange($event.value)">
+  <mat-select [formControl]="formControl" (selectionChange)="onSelectChange($event.value)">
     <mat-option *ngFor="let val of options" [value]="val.value">
       {{val.label}}
     </mat-option>
   </mat-select>
+  @if (formControl?.invalid && formControl?.touched) {
+  <mat-error>{{ errorMessage }}</mat-error>
+  }
 </mat-form-field>

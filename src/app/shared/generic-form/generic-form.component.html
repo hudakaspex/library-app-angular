@@ -11,12 +11,14 @@
         }
         @case ('textarea') {
         <div [class]="field.cssClass ? field.cssClass : 'col-6'">
-            <textarea-field [label]="field.label" [placeholder]="field.placeholder" [formControlName]="field.name" />
+            <textarea-field [label]="field.label" [placeholder]="field.placeholder" [formControlName]="field.name"
+                [errorMessage]="getErrorMessage(field)" />
         </div>
         }
         @case ('select') {
         <div [class]="field.cssClass ? field.cssClass : 'col-6'">
-            <select-field [options]="field.options" [label]="field.label" [formControlName]="field.name"></select-field>
+            <select-field [options]="field.options" [label]="field.label" [formControlName]="field.name"
+                [errorMessage]="getErrorMessage(field)"></select-field>
         </div>
         }
         @case ('radio') {
@@ -25,7 +27,7 @@
         }
         @case ('date') {
         <div [class]="field.cssClass ? field.cssClass : 'col-6'">
-            <datepicker-field [formControlName]="field.name" [label]="field.label"></datepicker-field>
+            <datepicker-field [formControlName]="field.name" [label]="field.label" [errorMessage]="getErrorMessage(field)"></datepicker-field>
         </div>
         }
         }

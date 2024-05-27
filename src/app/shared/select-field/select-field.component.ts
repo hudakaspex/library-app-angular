@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
-import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Inject, Injector, Input, OnInit, forwardRef, inject } from '@angular/core';
+import { FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldAppearance, MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { Utils } from '../utils';
 
 @Component({
   selector: 'select-field',
@@ -20,25 +21,27 @@ import { MatSelectModule } from '@angular/material/select';
     CommonModule,
     MatSelectModule,
     MatFormFieldModule,
-    FormsModule
+    ReactiveFormsModule
   ]
 })
 export class SelectFieldComponent implements OnInit {
+  private injector = inject(Injector);
   @Input() label: string;
   @Input() options: {value: any, label: string}[];
   @Input() appearance: MatFormFieldAppearance = "outline";
+  @Input() errorMessage: string;
+  public formControl: FormControl;
 
   value: string = "";
   onChange: any = () => {};
   onTouched: any = () => {};
 
-  constructor() { }
-
   ngOnInit() {
+    this.formControl = Utils.getFormControl(this.injector);
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.formControl.setValue(value);
   }
 
   registerOnChange(fn: any): void {
@@ -54,7 +57,6 @@ export class SelectFieldComponent implements OnInit {
   }
 
   onSelectChange(value: any): void {
-    this.value = value;
-    this.onChange(this.value);
+    this.onChange(this.formControl.value);
   }
 }

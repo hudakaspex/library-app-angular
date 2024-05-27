@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnInit, forwardRef } from "@angular/core";
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { Component, Injector, Input, OnInit, forwardRef, inject } from "@angular/core";
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldAppearance, MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { Utils } from "../utils";
 
 @Component({
   selector: "datepicker-field",
@@ -24,23 +25,25 @@ import { MatInputModule } from "@angular/material/input";
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class DatepickerFieldComponent implements OnInit, ControlValueAccessor {
+  private injector = inject(Injector);
   @Input() label = "Choose a date";
   @Input() date: any;
   @Input() appearance: MatFormFieldAppearance = "outline";
-
-
+  @Input() errorMessage: string;
+  public formControl: FormControl;
   onChange: any = () => {};
   onTouched: any = () => {};
-  constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.formControl = Utils.getFormControl(this.injector);
+  }
 
   writeValue(value: any): void {
-    this.date = value;
+    this.formControl.setValue(value);
   }
 
   registerOnChange(fn: any): void {
@@ -60,7 +63,6 @@ export class DatepickerFieldComponent implements OnInit, ControlValueAccessor {
     let utcDate: string;
     if (this.date) {
       utcDate = this.date.toISOString();
-      console.log(utcDate);
     }
     this.onChange(utcDate);
   }

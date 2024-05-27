@@ -1,3 +1,5 @@
+import { Injector } from "@angular/core";
+import { FormControl, FormControlDirective, FormControlName, FormGroupDirective, NgControl, NgModel } from "@angular/forms";
 import { debounceTime, distinctUntilChanged, filter, pipe } from "rxjs";
 
 export abstract class Utils {
@@ -15,5 +17,26 @@ export abstract class Utils {
             isEmpty = true;
         }
         return isEmpty;
+    }
+
+    static getFormControl(injector: Injector): FormControl<any> {
+        const ngControl = injector.get(NgControl);
+        let formControl: FormControl;
+        switch (ngControl?.constructor) {
+            case NgModel: {
+                const { control, update } = ngControl as NgModel;
+                formControl = control;
+                break;
+            }
+            case FormControlName: {
+                formControl = injector.get(FormGroupDirective).getControl(ngControl as FormControlName);
+                break;
+            }
+            default: {
+                formControl = (ngControl as FormControlDirective).form as FormControl;
+                break;
+            }
+        }
+        return formControl;
     }
 }

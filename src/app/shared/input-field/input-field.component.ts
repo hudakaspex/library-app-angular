@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component, Injector, Input, OnInit, forwardRef, inject } from "@angular/core";
-import { ControlValueAccessor, FormControl, FormControlDirective, FormControlName, FormGroupDirective, FormsModule, NG_VALUE_ACCESSOR, NgControl, NgModel, ReactiveFormsModule } from "@angular/forms";
+import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldAppearance, MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { Utils } from "../utils";
 
 @Component({
   selector: "input-field",
@@ -31,13 +32,13 @@ export class InputFieldComponent implements ControlValueAccessor, OnInit {
   @Input() appearance: MatFormFieldAppearance = "outline";
   @Input() type = "text";
   @Input() errorMessage: string;
-  formControl: FormControl;
+  public formControl: FormControl;
 
   onChange: any = () => { };
   onTouched: any = () => { };
 
   ngOnInit(): void {
-    this.getFormControl();
+    this.formControl = Utils.getFormControl(this.injector);
   }
 
   writeValue(value: any): void {
@@ -60,24 +61,5 @@ export class InputFieldComponent implements ControlValueAccessor, OnInit {
 
   onInput(event: Event): void {
     this.onChange(this.formControl.value);
-  }
-
-  private getFormControl() {
-    const ngControl = this.injector.get(NgControl);
-    switch (ngControl?.constructor) {
-      case NgModel: {
-        const { control, update } = ngControl as NgModel;
-        this.formControl = control;
-        break;
-      }
-      case FormControlName: {
-        this.formControl = this.injector.get(FormGroupDirective).getControl(ngControl as FormControlName);
-        break;
-      }
-      default: {
-        this.formControl = (ngControl as FormControlDirective).form as FormControl;
-        break;
-      }
-    }
   }
 }

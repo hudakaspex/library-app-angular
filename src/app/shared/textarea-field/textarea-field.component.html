@@ -1,4 +1,13 @@
 <mat-form-field class="w-100" [appearance]="appearance">
   <mat-label>{{label}}</mat-label>
-  <textarea [disabled]="disabled" type="text" matInput [placeholder]="placeholder" [(ngModel)]="value" (input)="onInput($event)"></textarea>
+  <textarea 
+    type="text" 
+    matInput 
+    [placeholder]="placeholder" 
+    [formControl]="formControl"
+    (input)="onInput($event)">
+  </textarea>
+  @if (formControl?.invalid && formControl?.touched) {
+    <mat-error>{{ errorMessage }}</mat-error>
+  }
 </mat-form-field>

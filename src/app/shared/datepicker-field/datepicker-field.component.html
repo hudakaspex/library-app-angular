@@ -1,6 +1,10 @@
 <mat-form-field [appearance]="appearance" class="w-100">
   <mat-label>{{label}}</mat-label>
-  <input matInput [matDatepicker]="picker" [(ngModel)]="date" (dateChange)="onDateChange($event)">
+  <input matInput [matDatepicker]="picker" [formControl]="formControl" (dateChange)="onDateChange($event)">
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
+
+  @if (formControl?.invalid && formControl?.touched) {
+  <mat-error>{{ errorMessage }}</mat-error>
+  }
 </mat-form-field>
