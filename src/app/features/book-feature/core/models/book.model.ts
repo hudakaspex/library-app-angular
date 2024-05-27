@@ -8,7 +8,7 @@ export class Book {
     isbn: string;
     type: BookType;
 
-    constructor(book?: Book) {
+    constructor(book?: Partial<Book>) {
         if (book) {
             this.id = book.id;
             this.title = book.title;

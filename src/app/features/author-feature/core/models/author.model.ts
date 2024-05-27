@@ -5,8 +5,8 @@ export class Author {
     birthDate: string;
     email: string;
     phone: string;
-    
-    constructor(author?: Author) {
+
+    constructor(author?: Partial<Author>) {
         if (author) {
             this.id = author.id;
             this.name = author.name;

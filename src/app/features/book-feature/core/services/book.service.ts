@@ -3,39 +3,22 @@ import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
 import { Observable, map, switchMap } from "rxjs";
 import { Book } from "../models/book.model";
-import { PageEvent } from "app/core/models/page-event";
 import { PageService } from "app/core/services/page.service";
+import { AbstractCrudService } from "app/core/services/abstractCrudService";
+
+const bookApi = "/api/books";
 
 @Injectable()
-export class BookService {
-  private bookApi = "/api/books";
-
+export class BookService extends AbstractCrudService<Book> {
   constructor(
     private httpClient: HttpClient,
     private pageService: PageService
-  ) { }
-
-  public getBooks(): Observable<Book[]> {
-    return this.httpClient.get(`${environment.serverUrl}${this.bookApi}`).pipe(
-      map((books: Book[]) => {
-        return books.map((book) => new Book(book));
-      })
-    );
+  ) {
+    super(httpClient, bookApi)
   }
 
-  public addBook(book: Book) {
-    return this.httpClient.post(`${environment.serverUrl}${this.bookApi}`, book);
-  }
-
-  public deleteBook(id: number) {
-    return this.httpClient.delete(`${environment.serverUrl}${this.bookApi}/${id}`);
-  }
-
-  public updateBook(book: Book) {
-    return this.httpClient.put(
-      `${environment.serverUrl}${this.bookApi}/${book.id}`,
-      book
-    );
+  protected createModel(data: Book): Book {
+    return new Book(data);
   }
 
   public books$(): Observable<{
@@ -48,7 +31,7 @@ export class BookService {
         return this.httpClient.get<{
           total: number;
           data: Book[];
-        }>(`${environment.serverUrl}${this.bookApi}`, { params });
+        }>(`${environment.serverUrl}${bookApi}`, { params });
       })
     );
   }

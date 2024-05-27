@@ -3,38 +3,23 @@ import { Injectable } from "@angular/core";
 import { PageService } from "app/core/services/page.service";
 import { environment } from "environments/environment";
 import { Author } from "../models/author.model";
-import { map, Observable, switchMap } from "rxjs";
+import { Observable, switchMap } from "rxjs";
+import { AbstractCrudService } from "app/core/services/abstractCrudService";
+
+const authorApi = "/api/authors"
 
 @Injectable()
-export class AuthorService {
-  private authorApi = "/api/authors";
+export class AuthorService extends AbstractCrudService<Author> {
 
   constructor(
     private httpClient: HttpClient,
     private pageService: PageService
-  ) { }
-
-  public getAuthors(): Observable<Author[]> {
-    return this.httpClient.get(`${environment.serverUrl}${this.authorApi}`).pipe(
-      map((authors: Author[]) => {
-        return authors.map((author) => new Author(author));
-      })
-    );
+  ) {
+    super(httpClient, authorApi);
   }
 
-  public addAuthor(author: Author) {
-    return this.httpClient.post(`${environment.serverUrl}${this.authorApi}`, author);
-  }
-
-  public deleteAuthor(id: number) {
-    return this.httpClient.delete(`${environment.serverUrl}${this.authorApi}/${id}`);
-  }
-
-  public updateAuthor(author: Author) {
-    return this.httpClient.put(
-      `${environment.serverUrl}${this.authorApi}/${author.id}`,
-      author
-    );
+  protected createModel(data: Partial<Author>): Author {
+    return new Author(data);
   }
 
   public authors$(): Observable<{
@@ -47,7 +32,7 @@ export class AuthorService {
         return this.httpClient.get<{
           total: number;
           data: Author[];
-        }>(`${environment.serverUrl}${this.authorApi}`, { params });
+        }>(`${environment.serverUrl}${authorApi}`, { params });
       })
     );
   }

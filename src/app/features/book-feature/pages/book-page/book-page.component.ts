@@ -14,7 +14,7 @@ import { PageEvent } from "@angular/material/paginator";
   styleUrls: ["./book-page.component.scss"],
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     BookListComponent
   ],
   providers: [
@@ -40,7 +40,7 @@ export class BookPageComponent {
       .afterClosed()
       .pipe(
         filter((val) => val),
-        switchMap((book) => this.bookService.addBook(book))
+        switchMap((book) => this.bookService.create(book))
       )
       .subscribe((book) => {
         this.bookService.searchBook();
@@ -49,7 +49,7 @@ export class BookPageComponent {
 
   public onDelete(book: Book) {
     if (confirm(`Are you sure to delete book ${book.title}?`)) {
-      this.bookService.deleteBook(book.id).subscribe(() => {
+      this.bookService.delete(book.id).subscribe(() => {
         this.bookService.searchBook();
       });
     }
@@ -65,7 +65,7 @@ export class BookPageComponent {
       .afterClosed()
       .pipe(
         filter((val) => val),
-        switchMap((book) => this.bookService.updateBook(book))
+        switchMap((book) => this.bookService.update(book.id, book))
       )
       .subscribe((book) => {
         this.bookService.searchBook();
