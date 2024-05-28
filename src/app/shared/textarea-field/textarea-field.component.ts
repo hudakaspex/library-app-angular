@@ -62,7 +62,9 @@ export class TextareaFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   onInput(event: Event): void {
-    this.onChange(this.formControl.value);
+    const input = event.target as HTMLInputElement;
+    this.onChange(input.value);
+    this.onTouched();
   }
 
 }

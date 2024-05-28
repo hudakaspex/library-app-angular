@@ -60,6 +60,6 @@ export class SelectFieldComponent implements OnInit {
   }
 
   onSelectChange(value: any): void {
-    this.onChange(this.formControl.value);
+    this.onChange(value);
   }
 }

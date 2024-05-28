@@ -66,7 +66,7 @@ export class InputFieldComponent implements ControlValueAccessor, OnInit {
 
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.onChange(input);
+    this.onChange(input.value);
     this.onTouched();
   }
 }

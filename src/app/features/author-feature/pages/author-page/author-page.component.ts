@@ -4,9 +4,10 @@ import { GeneralTableComponent } from 'app/shared/general-table/general-table.co
 import { TableColumn } from 'app/shared/general-table/models/table-column.model';
 import { AuthorService } from '../../core/services/author.service';
 import { Author } from '../../core/models/author.model';
-import { map, Observable, shareReplay } from 'rxjs';
+import { filter, map, Observable, shareReplay, switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorDialogComponent } from '../../components/author-dialog/author-dialog.component';
+import { Utils } from 'app/shared/utils';
 
 @Component({
   selector: 'app-author-page',
@@ -36,12 +37,16 @@ export class AuthorPageComponent implements OnInit {
   public totalData$: Observable<number>;
 
   constructor() {
-    const authorData$ = this.authorService.authors$().pipe(shareReplay(1));
-    this.authors$ = authorData$.pipe(map(res => res.data));
-    this.totalData$ = authorData$.pipe(map(res => res.total));
   }
 
   ngOnInit() {
+    this.initAuthor();
+  }
+
+  private initAuthor() {
+    const authorData$ = this.authorService.authors$().pipe(shareReplay(1));
+    this.authors$ = authorData$.pipe(map(res => res.data));
+    this.totalData$ = authorData$.pipe(map(res => res.total));
   }
 
   public onAddEvent() {
@@ -50,8 +55,12 @@ export class AuthorPageComponent implements OnInit {
       disableClose: true,
     })
     .afterClosed()
+    .pipe(
+      filter(author => Utils.isNotEmpty(author)),
+      switchMap(author => this.authorService.create(author))
+    )
     .subscribe(author => {
-      console.log(author);
+      this.initAuthor();
     });
   }
 
