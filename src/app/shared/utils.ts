@@ -19,24 +19,37 @@ export abstract class Utils {
         return isEmpty;
     }
 
-    static getFormControl(injector: Injector): FormControl<any> {
-        const ngControl = injector.get(NgControl);
-        let formControl: FormControl;
-        switch (ngControl?.constructor) {
-            case NgModel: {
-                const { control, update } = ngControl as NgModel;
-                formControl = control;
-                break;
-            }
-            case FormControlName: {
-                formControl = injector.get(FormGroupDirective).getControl(ngControl as FormControlName);
-                break;
-            }
-            default: {
-                formControl = (ngControl as FormControlDirective).form as FormControl;
-                break;
-            }
+    static isNotEmpty(val: any): boolean {
+        let isNotEmpty = false;
+        if (val != null && val != undefined && val != "") {
+            isNotEmpty = true;
         }
-        return formControl;
+        return isNotEmpty;
+    }
+
+    static getFormControl(injector: Injector): FormControl<any> {
+        if (injector) {
+            const ngControl = injector.get(NgControl, null);
+            let formControl: FormControl = new FormControl();
+            if (ngControl) {
+                switch (ngControl?.constructor) {
+                    case NgModel: {
+                        const { control, update } = ngControl as NgModel;
+                        formControl = control;
+                        break;
+                    }
+                    case FormControlName: {
+                        formControl = injector.get(FormGroupDirective).getControl(ngControl as FormControlName);
+                        break;
+                    }
+                    default: {
+                        formControl = (ngControl as FormControlDirective)?.form as FormControl;
+                        break;
+                    }
+                }
+            }
+            return formControl;
+        }
+        return new FormControl();
     }
 }

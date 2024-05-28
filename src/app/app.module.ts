@@ -8,6 +8,7 @@ import { NgHttpLoaderModule } from "ng-http-loader";
 import { InterceptorService } from "./core/services/interceptor.service";
 import { ToastrModule } from "ngx-toastr";
 import { provideNativeDateAdapter } from "@angular/material/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({ declarations: [AppComponent],
     bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
@@ -23,6 +24,8 @@ import { provideNativeDateAdapter } from "@angular/material/core";
             multi: true,
         },
         provideNativeDateAdapter(),
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        FormsModule,
+        ReactiveFormsModule
     ] })
 export class AppModule {}

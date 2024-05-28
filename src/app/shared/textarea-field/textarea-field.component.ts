@@ -39,7 +39,9 @@ export class TextareaFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(value: any): void {
-    this.formControl.setValue(value);
+    if (Utils.isNotEmpty(value)) {
+      this.formControl.setValue(value);
+    }
   }
 
   registerOnChange(fn: any): void {

@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, Injector, Input, OnInit, forwardRef, inject } from "@angular/core";
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
+import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldAppearance, MatFormFieldModule } from "@angular/material/form-field";
@@ -25,7 +25,8 @@ import { Utils } from "../utils";
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class DatepickerFieldComponent implements OnInit, ControlValueAccessor {
@@ -43,7 +44,9 @@ export class DatepickerFieldComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(value: any): void {
-    this.formControl.setValue(value);
+    if (Utils.isNotEmpty(value)) {
+      this.formControl.setValue(value);
+    }
   }
 
   registerOnChange(fn: any): void {

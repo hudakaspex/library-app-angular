@@ -21,7 +21,8 @@ import { Utils } from '../utils';
     CommonModule,
     MatSelectModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class SelectFieldComponent implements OnInit {
@@ -41,7 +42,9 @@ export class SelectFieldComponent implements OnInit {
   }
 
   writeValue(value: any): void {
-    this.formControl.setValue(value);
+    if (Utils.isNotEmpty(value)) {
+      this.formControl.setValue(value);
+    }
   }
 
   registerOnChange(fn: any): void {
