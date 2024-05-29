@@ -66,6 +66,9 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.columns) {
       this.initDisplayedColumns();
+    }
+
+    if (changes.data) {
       this.initDatasource();
     }
   }

@@ -1,6 +1,6 @@
 export interface FieldValidator {
     type: 'required' | 'email' | 'min' | 'max';
-    message: string;
+    errorMessage: string;
     value?: any
 }
 

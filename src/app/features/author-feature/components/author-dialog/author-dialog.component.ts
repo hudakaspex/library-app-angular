@@ -29,7 +29,8 @@ import { FieldConfig } from 'app/shared/generic-form/models/field-config.model';
 })
 export class AuthorDialogComponent {
   public author: WritableSignal<Author>;
-  public formConfig: FieldConfig[] = []
+  public formConfig: FieldConfig[] = [];
+  public isFormValid = signal(false);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Author,
@@ -49,7 +50,7 @@ export class AuthorDialogComponent {
         name: 'name',
         placeholder: 'Name',
         validators: [
-          { type: 'required', message: 'Name is required' }
+          { type: 'required', errorMessage: 'Name is required' }
         ],
         value: this.author().name
       },
@@ -64,7 +65,10 @@ export class AuthorDialogComponent {
         label: 'Email',
         name: 'email',
         fieldType: 'email',
-        value: this.author().email
+        value: this.author().email,
+        validators: [
+          { type: 'email', errorMessage: 'Invalid Email Format' }
+        ]
       },
       {
         type: 'input',

@@ -86,13 +86,13 @@ export class GenericFormComponent {
     public getErrorMessage(field: FieldConfig): string {
         const control: AbstractControl = this.form.get(field.name);
         if (control?.hasError('required')) {
-            return field.validators.find(v => v.type === 'required').message;
+            return field.validators.find(v => v.type === 'required').errorMessage;
         } else if (control?.hasError('email')) {
-            return field.validators.find(v => v.type === 'email').message;
+            return field.validators.find(v => v.type === 'email').errorMessage;
         } else if (control?.hasError('min')) {
-            return field.validators.find(v => v.type === 'min').message;
+            return field.validators.find(v => v.type === 'min').errorMessage;
         } else if (control?.hasError('max')) {
-            return field.validators.find(v => v.type === 'max').message;
+            return field.validators.find(v => v.type === 'max').errorMessage;
         }
         return '';
     }

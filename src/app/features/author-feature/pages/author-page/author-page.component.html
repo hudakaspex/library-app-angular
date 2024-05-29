@@ -1,6 +1,9 @@
 <app-general-table 
-    [data]="authors$ | async" 
-    [totalData]="totalData$ | async"
+    [data]="(data$ | async)?.data" 
+    [totalData]="(data$ | async)?.total"
     (onAdd)="onAddEvent()"
-    [columns]="columns">
+    [columns]="columns"
+    (onPagination)="onPaginationEvent($event)"
+    (onSearch)="onSearch($event)"
+    >
 </app-general-table>

@@ -44,7 +44,7 @@ export class AuthorService extends AbstractCrudService<Author> {
     this.pageService.updatePagination(pageSize, pageNumber);
   }
 
-  public searchBook(search = this.pageService.page.search) {
+  public onSearch(search = this.pageService.page.search) {
     this.pageService.onSearch(search);
   }
 

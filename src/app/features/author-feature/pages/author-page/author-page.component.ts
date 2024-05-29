@@ -8,6 +8,7 @@ import { filter, map, Observable, shareReplay, switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorDialogComponent } from '../../components/author-dialog/author-dialog.component';
 import { Utils } from 'app/shared/utils';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-author-page',
@@ -33,8 +34,7 @@ export class AuthorPageComponent implements OnInit {
     { label: 'Address', propName: 'address', type: 'text' },
     { label: 'Phone', propName: 'phone', type: 'text' },
   ];
-  public authors$: Observable<Author[]>;
-  public totalData$: Observable<number>;
+  public data$: Observable<{data: Author[], total: number}>;
 
   constructor() {
   }
@@ -44,9 +44,7 @@ export class AuthorPageComponent implements OnInit {
   }
 
   private initAuthor() {
-    const authorData$ = this.authorService.authors$().pipe(shareReplay(1));
-    this.authors$ = authorData$.pipe(map(res => res.data));
-    this.totalData$ = authorData$.pipe(map(res => res.total));
+    this.data$ = this.authorService.authors$().pipe(shareReplay(1));
   }
 
   public onAddEvent() {
@@ -70,6 +68,11 @@ export class AuthorPageComponent implements OnInit {
   public onDeleteEvent() {
   }
 
-  public onPaginationEvent() {
+  public onSearch(search: string) {
+    this.authorService.onSearch(search);
+  }
+
+  public onPaginationEvent(event: PageEvent) {
+    this.authorService.updatePagination(event.pageSize, event.pageIndex);
   }
 }
