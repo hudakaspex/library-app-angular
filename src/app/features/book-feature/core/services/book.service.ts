@@ -32,6 +32,10 @@ export class BookService extends AbstractCrudService<Book> {
           total: number;
           data: Book[];
         }>(`${environment.serverUrl}${bookApi}`, { params });
+      }),
+      map(result => {
+        result.data = result.data.map(this.createModel);
+        return result;
       })
     );
   }

@@ -1,10 +1,11 @@
+import { Utils } from "app/shared/utils";
 import { BookType } from "./book-type.enum";
 
 export class Book {
     id: number;
     title: string;
     author: string;
-    publicationDate: Date;
+    publicationDate: number;
     isbn: string;
     type: BookType;
 
@@ -13,9 +14,31 @@ export class Book {
             this.id = book.id;
             this.title = book.title;
             this.author = book.author;
-            this.publicationDate = new Date(book.publicationDate);
             this.isbn = book.isbn;
             this.type = book.type;
+            this.initPublicationDate(book.publicationDate);
+        }
+    }
+
+    private initPublicationDate(date: number | Date | string) {
+        if (Utils.isNotEmpty(date)) {
+            if (typeof date == 'number') {
+                this.publicationDate = date;
+            }
+            else {
+                this.setPublicationDate = new Date(date);
+            }
+        }
+    }
+
+    public get publicationInDate() {
+        const date = new Date(this.publicationDate);
+        return date;
+    }
+
+    public set setPublicationDate(date: Date) {
+        if (date) {
+            this.publicationDate = new Date(date).getTime();
         }
     }
 }

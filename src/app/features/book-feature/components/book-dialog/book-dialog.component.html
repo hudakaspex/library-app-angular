@@ -1,27 +1,11 @@
-<app-dialog dialogTitle="Add Book" (onSave)="onSave()" (onCancel)="onCancel()">
+<app-dialog dialogTitle="Book" (onSave)="onSave()" (onCancel)="onCancel()">
   <div CONTENT>
     <div class="row">
-      <div class="col-6">
-        <input-field placeholder="Title" label="title" [(ngModel)]="book.title"></input-field>
-      </div>
-      <div class="col-6">
-        <input-field placeholder="Author" label="Author" ></input-field>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <datepicker-field label="Publicaton Date" [(ngModel)]="book.publicationDate"></datepicker-field>
-      </div>
-      <div class="col-6">
-        <input-field placeholder="ISBN" label="ISBN" [(ngModel)]="book.isbn"></input-field>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <select-field [options]="typeOptions" label="Book Type" [(ngModel)]="book.type"></select-field>
-      </div>
+      <generic-form
+        [fieldConfigs]="fieldConfigs"
+        (formChanges)="book.set($event)"
+      >
+      </generic-form>
     </div>
   </div>
 </app-dialog>

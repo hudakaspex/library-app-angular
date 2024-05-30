@@ -27,7 +27,6 @@ import { PageEvent } from '@angular/material/paginator';
 export class AuthorPageComponent implements OnInit {
   private authorService: AuthorService = inject(AuthorService);
   private dialog = inject(MatDialog);
-
   public columns: TableColumn[] = [
     { label: 'Name', propName: 'name', type: 'text' },
     { label: 'Email', propName: 'email', type: 'text' },
@@ -46,10 +45,7 @@ export class AuthorPageComponent implements OnInit {
 
   private initAuthor() {
     this.data$ = this.authorService.authors$()
-    .pipe(
-      tap(console.log),
-      shareReplay(1)
-    );
+    .pipe(shareReplay(1));
   }
 
   public onAddEvent() {
