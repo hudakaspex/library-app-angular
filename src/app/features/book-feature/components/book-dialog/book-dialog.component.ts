@@ -82,7 +82,7 @@ export class BookDialogComponent {
 
   public onSave() {
     const book = new Book(this.book());
-    book.id = this.data.id;
+    book.id = this.data?.id;
     this.dialogRef.close(book);
   }
 

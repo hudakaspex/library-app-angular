@@ -90,7 +90,7 @@ export class AuthorDialogComponent {
 
   public onSave() {
     const author = new Author(this.author());
-    author.id = this.data.id;
+    author.id = this.data?.id;
     this.dialogRef.close(author);
   }
 
