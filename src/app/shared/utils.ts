@@ -52,4 +52,9 @@ export abstract class Utils {
         }
         return new FormControl();
     }
+
+    public static convertDateToMilliseconds(date: Date | string): number {
+        const milliseconds = new Date(date).getTime();
+        return milliseconds;
+    }
 }

@@ -1,4 +1,4 @@
-<app-dialog dialogTitle="Author" [disabledSave]="isFormValid()" (onSave)="onSave()" (onCancel)="onCancel()">
+<app-dialog dialogTitle="Author" [disabledSave]="!isFormValid()" (onSave)="onSave()" (onCancel)="onCancel()">
   <div CONTENT>
     <generic-form 
       [fieldConfigs]="formConfig" 

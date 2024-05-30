@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { PageService } from "app/core/services/page.service";
 import { environment } from "environments/environment";
 import { Author } from "../models/author.model";
-import { Observable, switchMap } from "rxjs";
+import { map, Observable, switchMap } from "rxjs";
 import { AbstractCrudService } from "app/core/services/abstractCrudService";
 
 const authorApi = "/api/authors"
@@ -33,6 +33,10 @@ export class AuthorService extends AbstractCrudService<Author> {
           total: number;
           data: Author[];
         }>(`${environment.serverUrl}${authorApi}`, { params });
+      }),
+      map(result => {
+        result.data = result.data.map(val => this.createModel(val));
+        return result;
       })
     );
   }

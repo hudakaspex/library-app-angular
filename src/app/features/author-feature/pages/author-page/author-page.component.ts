@@ -4,7 +4,7 @@ import { GeneralTableComponent } from 'app/shared/general-table/general-table.co
 import { TableColumn } from 'app/shared/general-table/models/table-column.model';
 import { AuthorService } from '../../core/services/author.service';
 import { Author } from '../../core/models/author.model';
-import { filter, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { filter, map, Observable, shareReplay, switchMap, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorDialogComponent } from '../../components/author-dialog/author-dialog.component';
 import { Utils } from 'app/shared/utils';
@@ -33,8 +33,9 @@ export class AuthorPageComponent implements OnInit {
     { label: 'Email', propName: 'email', type: 'text' },
     { label: 'Address', propName: 'address', type: 'text' },
     { label: 'Phone', propName: 'phone', type: 'text' },
+    { label: 'Birthdate', propName: 'birthdate', type: 'date' },
   ];
-  public data$: Observable<{data: Author[], total: number}>;
+  public data$: Observable<{ data: Author[], total: number }>;
 
   constructor() {
   }
@@ -44,7 +45,11 @@ export class AuthorPageComponent implements OnInit {
   }
 
   private initAuthor() {
-    this.data$ = this.authorService.authors$().pipe(shareReplay(1));
+    this.data$ = this.authorService.authors$()
+    .pipe(
+      tap(console.log),
+      shareReplay(1)
+    );
   }
 
   public onAddEvent() {
@@ -52,20 +57,38 @@ export class AuthorPageComponent implements OnInit {
       width: "700px",
       disableClose: true,
     })
-    .afterClosed()
-    .pipe(
-      filter(author => Utils.isNotEmpty(author)),
-      switchMap(author => this.authorService.create(author))
-    )
-    .subscribe(author => {
-      this.initAuthor();
-    });
+      .afterClosed()
+      .pipe(
+        filter(author => Utils.isNotEmpty(author)),
+        switchMap(author => this.authorService.create(author))
+      )
+      .subscribe(author => {
+        this.initAuthor();
+      });
   }
 
   public onUpdateEvent(author: Author) {
+    this.dialog.open(AuthorDialogComponent, {
+      width: "700px",
+      disableClose: true,
+      data: author
+    })
+      .afterClosed()
+      .pipe(
+        filter(author => Utils.isNotEmpty(author)),
+        switchMap(author => this.authorService.update(author.id, author))
+      )
+      .subscribe(author => {
+        this.initAuthor();
+      });
   }
 
-  public onDeleteEvent() {
+  public onDeleteEvent(author: Author) {
+    if (confirm(`Are you sure to delete this author ${author.name}?`)) {
+      this.authorService.delete(author.id).subscribe(() => {
+        this.authorService.onSearch();
+      });
+    }
   }
 
   public onSearch(search: string) {

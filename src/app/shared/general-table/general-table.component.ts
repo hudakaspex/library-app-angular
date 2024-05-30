@@ -45,6 +45,7 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   @Input() columns: TableColumn[] = [];
   @Input() totalData: number;
   @Input({ required: true }) data: any[];
+  @Input() dateFormat = 'dd/MM/yyyy'
 
   @Output("onAdd") onAddEvent = new EventEmitter<void>();
   @Output("onUpdate") onUpdateEvent = new EventEmitter<any>();
@@ -89,11 +90,11 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   }
 
   public onDelete(data: any) {
-    this.onUpdateEvent.emit(data);
-  }
-
-  public onUpdate(data: any) {
     this.onDeleteEvent.emit(data);
+  }
+  
+  public onUpdate(data: any) {
+    this.onUpdateEvent.emit(data);
   }
 
   public pageEvent(event: PageEvent) {

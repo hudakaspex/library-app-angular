@@ -2,6 +2,8 @@
     [data]="(data$ | async)?.data" 
     [totalData]="(data$ | async)?.total"
     (onAdd)="onAddEvent()"
+    (onUpdate)="onUpdateEvent($event)"
+    (onDelete)="onDeleteEvent($event)"
     [columns]="columns"
     (onPagination)="onPaginationEvent($event)"
     (onSearch)="onSearch($event)"

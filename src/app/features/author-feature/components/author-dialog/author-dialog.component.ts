@@ -10,6 +10,7 @@ import { TextareaFieldComponent } from 'app/shared/textarea-field/textarea-field
 import { Author } from '../../core/models/author.model';
 import { GenericFormComponent } from 'app/shared/generic-form/generic-form.component';
 import { FieldConfig } from 'app/shared/generic-form/models/field-config.model';
+import { Utils } from 'app/shared/utils';
 
 @Component({
   selector: 'app-author-dialog',
@@ -58,7 +59,7 @@ export class AuthorDialogComponent {
         type: 'date',
         label: 'Birthdate',
         name: 'birthdate',
-        value: this.author().birthDate
+        value: this.author().birthdateInDate
       },
       {
         type: 'input',
@@ -88,7 +89,9 @@ export class AuthorDialogComponent {
   }
 
   public onSave() {
-    this.dialogRef.close(this.author());
+    const author = new Author(this.author());
+    author.id = this.data.id;
+    this.dialogRef.close(author);
   }
 
   public onCancel() {

@@ -24,7 +24,17 @@
           <ng-container *ngFor="let column of columns">
             <ng-container [matColumnDef]="column.propName">
               <th mat-header-cell *matHeaderCellDef>{{column.label}}</th>
-              <td mat-cell *matCellDef="let val">{{val[column.propName]}}</td>
+              <td mat-cell *matCellDef="let val">
+                @if (column.type == 'text') {
+                {{val[column.propName]}}
+                }
+                @else if(column.type == 'date') {
+                {{val[column.propName] | date: dateFormat}}
+                }
+                @else if (column.type == 'number') {
+                {{val[column.propName] | number}}
+                }
+              </td>
             </ng-container>
           </ng-container>
 
