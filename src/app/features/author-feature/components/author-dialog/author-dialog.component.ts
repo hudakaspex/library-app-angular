@@ -10,7 +10,6 @@ import { TextareaFieldComponent } from 'app/shared/textarea-field/textarea-field
 import { Author } from '../../core/models/author.model';
 import { GenericFormComponent } from 'app/shared/generic-form/generic-form.component';
 import { FieldConfig } from 'app/shared/generic-form/models/field-config.model';
-import { Utils } from 'app/shared/utils';
 
 @Component({
   selector: 'app-author-dialog',
@@ -76,7 +75,10 @@ export class AuthorDialogComponent {
         label: 'Phone',
         name: 'phone',
         fieldType: 'phone',
-        value: this.author().phone
+        value: this.author().phone,
+        validators: [
+          { type: 'phone', errorMessage: 'Invalid Phone Number' },
+        ]
       },
       {
         type: 'textarea',

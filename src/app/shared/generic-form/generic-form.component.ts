@@ -75,6 +75,8 @@ export class GenericFormComponent {
                     return Validators.min(validator.value);
                 } else if (validator.type === 'max') {
                     return Validators.max(validator.value);
+                } else if (validator.type === 'phone') {
+                    return Validators.pattern(/^[0-9]{10,12}$/)  
                 }
                 // Add more validator types as needed
             });
@@ -93,6 +95,8 @@ export class GenericFormComponent {
             return field.validators.find(v => v.type === 'min').errorMessage;
         } else if (control?.hasError('max')) {
             return field.validators.find(v => v.type === 'max').errorMessage;
+        } else if (control?.hasError('pattern')) {
+            return field.validators.find(v => v.type === 'phone').errorMessage;
         }
         return '';
     }
