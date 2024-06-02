@@ -4,9 +4,7 @@ import { BehaviorSubject, map } from "rxjs";
 import { PageEvent } from "../models/page-event";
 import { HttpParams } from "@angular/common/http";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class PageService {
   private _pageSubject: BehaviorSubject<PageEvent> = new BehaviorSubject({
     pageNumber: 0,

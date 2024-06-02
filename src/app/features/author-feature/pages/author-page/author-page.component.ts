@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GeneralTableComponent } from 'app/shared/general-table/general-table.component';
 import { TableColumn } from 'app/shared/general-table/models/table-column.model';
 import { AuthorService } from '../../core/services/author.service';
 import { Author } from '../../core/models/author.model';
-import { filter, map, Observable, shareReplay, switchMap, tap } from 'rxjs';
+import { filter, map, Observable, shareReplay, switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorDialogComponent } from '../../components/author-dialog/author-dialog.component';
 import { Utils } from 'app/shared/utils';
 import { PageEvent } from '@angular/material/paginator';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { PageService } from 'app/core/services/page.service';
 
 @Component({
   selector: 'app-author-page',
@@ -21,10 +23,11 @@ import { PageEvent } from '@angular/material/paginator';
     AuthorDialogComponent
   ],
   providers: [
-    AuthorService
+    AuthorService,
+    PageService
   ]
 })
-export class AuthorPageComponent implements OnInit {
+export class AuthorPageComponent {
   private authorService: AuthorService = inject(AuthorService);
   private dialog = inject(MatDialog);
   public columns: TableColumn[] = [
@@ -37,15 +40,12 @@ export class AuthorPageComponent implements OnInit {
   public data$: Observable<{ data: Author[], total: number }>;
 
   constructor() {
-  }
-
-  ngOnInit() {
     this.initAuthor();
   }
 
   private initAuthor() {
     this.data$ = this.authorService.authors$()
-    .pipe(shareReplay(1));
+    .pipe(shareReplay(1), takeUntilDestroyed());
   }
 
   public onAddEvent() {

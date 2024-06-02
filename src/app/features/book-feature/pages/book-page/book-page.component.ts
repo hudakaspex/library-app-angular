@@ -7,6 +7,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { BookListComponent } from "../../components/book-list/book-list.component";
 import { CommonModule } from "@angular/common";
 import { PageEvent } from "@angular/material/paginator";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { PageService } from "app/core/services/page.service";
 
 @Component({
   selector: "app-book-page",
@@ -18,7 +20,8 @@ import { PageEvent } from "@angular/material/paginator";
     BookListComponent
   ],
   providers: [
-    BookService
+    BookService,
+    PageService
   ]
 })
 export class BookPageComponent {
@@ -32,7 +35,7 @@ export class BookPageComponent {
     private dialog: MatDialog,
     private viewContainerRef: ViewContainerRef
   ) {
-    this.books$ = this.bookService.books$().pipe(shareReplay(1));
+    this.books$ = this.bookService.books$().pipe(shareReplay(1), takeUntilDestroyed());
   }
 
   public onAddBook() {
