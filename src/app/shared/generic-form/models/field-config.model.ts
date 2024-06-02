@@ -1,3 +1,5 @@
+import { Observable } from "rxjs";
+
 export interface FieldValidator {
     type: 'required' | 'email' | 'min' | 'max' | 'phone';
     errorMessage: string;
@@ -20,7 +22,8 @@ interface FieldInput extends FormFieldConfig {
 
 interface FieldSelect extends FormFieldConfig {
     type: 'select',
-    options: {label: string, value: any}[]
+    options?: {label: string, value: any}[],
+    asyncOptions?: Observable<{label: string, value: any}[]>;
 }
 
 interface FieldTextArea extends FormFieldConfig {
@@ -29,12 +32,12 @@ interface FieldTextArea extends FormFieldConfig {
 
 interface FieldRadio extends FormFieldConfig {
     type: 'radio',
-    options: {label: string, value: any}[]
+    options: {label: string, value: any}[],
 }
 
 interface FieldChecbox extends FormFieldConfig {
     type: 'checkbox',
-    options: {label: string, value: any}[]
+    options: {label: string, value: any}[],
 }
 
 interface FieldDate extends FormFieldConfig {

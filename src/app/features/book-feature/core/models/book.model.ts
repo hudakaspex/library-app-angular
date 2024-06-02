@@ -1,10 +1,11 @@
 import { Utils } from "app/shared/utils";
 import { BookType } from "./book-type.enum";
+import { Author } from "app/features/author-feature/core/models/author.model";
 
 export class Book {
     id: number;
     title: string;
-    author: string;
+    author: Author;
     publicationDate: number;
     isbn: string;
     type: BookType;

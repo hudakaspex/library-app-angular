@@ -1,4 +1,4 @@
-import { Component, signal } from "@angular/core";
+import { Component, signal, ViewContainerRef } from "@angular/core";
 import { BookService } from "../../core/services/book.service";
 import { Observable, filter, shareReplay, switchMap } from "rxjs";
 import { Book } from "../../core/models/book.model";
@@ -27,7 +27,11 @@ export class BookPageComponent {
     total: number;
   }>;
 
-  constructor(private bookService: BookService, private dialog: MatDialog) {
+  constructor(
+    private bookService: BookService, 
+    private dialog: MatDialog,
+    private viewContainerRef: ViewContainerRef
+  ) {
     this.books$ = this.bookService.books$().pipe(shareReplay(1));
   }
 
@@ -36,6 +40,7 @@ export class BookPageComponent {
       .open(BookDialogComponent, {
         width: "700px",
         disableClose: true,
+        viewContainerRef: this.viewContainerRef
       })
       .afterClosed()
       .pipe(
@@ -61,6 +66,7 @@ export class BookPageComponent {
         width: "700px",
         disableClose: true,
         data: book,
+        viewContainerRef: this.viewContainerRef
       })
       .afterClosed()
       .pipe(

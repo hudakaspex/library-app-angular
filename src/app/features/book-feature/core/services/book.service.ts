@@ -5,8 +5,10 @@ import { Observable, map, switchMap } from "rxjs";
 import { Book } from "../models/book.model";
 import { PageService } from "app/core/services/page.service";
 import { AbstractCrudService } from "app/core/services/abstractCrudService";
+import { Author } from "app/features/author-feature/core/models/author.model";
 
 const bookApi = "/api/books";
+const authorApi = "/api/authors";
 
 @Injectable()
 export class BookService extends AbstractCrudService<Book> {
@@ -49,5 +51,12 @@ export class BookService extends AbstractCrudService<Book> {
 
   public searchBook(search = this.pageService.page.search) {
     this.pageService.onSearch(search);
+  }
+
+  public getAuthors(): Observable<Author[]> {
+    const authors$ = this.httpClient.get(`${environment.serverUrl}${authorApi}`).pipe(map((authors: Author[]) => {
+      return authors.map(val => new Author(val));
+    }));
+    return authors$;
   }
 }

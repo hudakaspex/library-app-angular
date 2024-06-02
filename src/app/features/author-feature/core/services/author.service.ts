@@ -32,7 +32,7 @@ export class AuthorService extends AbstractCrudService<Author> {
         return this.httpClient.get<{
           total: number;
           data: Author[];
-        }>(`${environment.serverUrl}${authorApi}`, { params });
+        }>(`${environment.serverUrl}${authorApi}/search`, { params });
       }),
       map(result => {
         result.data = result.data.map(val => this.createModel(val));

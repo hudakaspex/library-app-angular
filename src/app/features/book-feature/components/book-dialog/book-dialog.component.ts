@@ -1,4 +1,4 @@
-import { Component, Inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, Inject, signal, WritableSignal } from '@angular/core';
 import { Book } from '../../core/models/book.model';
 import { BookType } from '../../core/models/book-type.enum';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -10,6 +10,9 @@ import { SelectFieldComponent } from 'app/shared/select-field/select-field.compo
 import { DatepickerFieldComponent } from 'app/shared/datepicker-field/datepicker-field.component';
 import { GenericFormComponent } from 'app/shared/generic-form/generic-form.component';
 import { FieldConfig } from 'app/shared/generic-form/models/field-config.model';
+import { BookService } from '../../core/services/book.service';
+import { map, shareReplay } from 'rxjs';
+import { Author } from 'app/features/author-feature/core/models/author.model';
 
 @Component({
   selector: 'app-book-dialog',
@@ -27,6 +30,13 @@ import { FieldConfig } from 'app/shared/generic-form/models/field-config.model';
   ],
 })
 export class BookDialogComponent {
+  private bookService = inject(BookService);
+  public authors$ = this.bookService.getAuthors()
+  .pipe(shareReplay(), map(authors => {
+    return authors.map(author => {
+      return {label: author.name, value: author.id}
+    })
+  }));
   public book: WritableSignal<Book>;
   public typeOptions = [
     { value: BookType.FICTION, label: "Fiction" },
@@ -76,6 +86,13 @@ export class BookDialogComponent {
         name: 'type',
         options: this.typeOptions,
         value: this.book().type
+      },
+      {
+        type: 'select',
+        label: 'Author',
+        name: 'authorId',
+        asyncOptions: this.authors$,
+        value: this.book()?.author?.id
       }
     ]
   }
@@ -83,6 +100,7 @@ export class BookDialogComponent {
   public onSave() {
     const book = new Book(this.book());
     book.id = this.data?.id;
+    book.author = new Author({id: this.book()['authorId']});
     this.dialogRef.close(book);
   }
 
