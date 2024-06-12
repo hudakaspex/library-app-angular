@@ -1,3 +1,4 @@
-<p>
-  member-page works!
-</p>
+<app-general-table [data]="(data$ | async)?.data" [totalData]="(data$ | async)?.total" (onAdd)="onAddEvent()"
+  (onSearch)="onSearch($event)" (onDelete)="onDeleteEvent($event)" (onPagination)="onPaginationEvent($event)"
+  (onUpdate)="onUpdateEvent($event)" [columns]="columns">
+</app-general-table>

@@ -8,12 +8,13 @@ export class Member {
     public email: string;
     public dateJoined: number;
 
-    constructor(member: Partial<Member>) {
+    constructor(member?: Partial<Member>) {
         if (member) {
             this.id = member.id;
             this.name = member.name;
             this.phone = member.phone;
             this.address = member.address;
+            this.email = member.email;
             this.initDateJoined(member.dateJoined);
         }
     }

@@ -6,7 +6,7 @@ import { Author } from "../models/author.model";
 import { map, Observable, switchMap } from "rxjs";
 import { AbstractCrudService } from "app/core/services/abstractCrudService";
 
-const authorApi = "/api/authors"
+const authorApi = "/api/authors";
 
 @Injectable()
 export class AuthorService extends AbstractCrudService<Author> {

@@ -1,3 +1,6 @@
-<p>
-  member-dialog works!
-</p>
+<app-dialog dialogTitle="Author" [disabledSave]="!isFormValid()" (onSave)="onSave()" (onCancel)="onCancel()">
+  <div CONTENT>
+    <generic-form [fieldConfigs]="formConfig" (submitForm)="onSave()" (formStatus)="isFormValid.set($event)"
+      (formChanges)="member.set($event)"></generic-form>
+  </div>
+</app-dialog>
