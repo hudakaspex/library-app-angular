@@ -1,0 +1,4 @@
+<app-general-table [columns]="columns" [data]="(data$ | async)?.data" [totalData]="(data$ | async)?.total"
+  (onAdd)="onAddEvent()" (onUpdate)="onUpdateEvent($event)" (onDelete)="onDeleteEvent($event)"
+  (onPagination)="onPaginationEvent($event)" (onSearch)="onSearch($event)">
+</app-general-table>

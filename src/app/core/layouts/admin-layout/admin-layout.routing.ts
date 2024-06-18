@@ -23,6 +23,10 @@ export const AdminLayoutRoutes: Routes = [
         path: "member",
         loadComponent: () => import("../../../features/member-feature/pages/member-page/member-page.component").then((x) => x.MemberPageComponent),
       },
+      {
+        path: "loan",
+        loadComponent: () => import("../../../features/loan-feature/pages/loan-page/loan-page.component").then((x) => x.LoanPageComponent),
+      },
     ],
   },
 ];

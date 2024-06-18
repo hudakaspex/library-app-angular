@@ -46,6 +46,7 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   @Input() totalData: number;
   @Input({ required: true }) data: any[];
   @Input() dateFormat = 'dd/MM/yyyy'
+  @Input() searchPlaceholder = "Search ..."; 
 
   @Output("onAdd") onAddEvent = new EventEmitter<void>();
   @Output("onUpdate") onUpdateEvent = new EventEmitter<any>();

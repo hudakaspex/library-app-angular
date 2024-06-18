@@ -1,44 +1,47 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AbstractCrudService } from 'app/core/services/abstractCrudService';
-import { Member } from '../models/member.model';
+import { Loan } from '../models/loan.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable, switchMap } from 'rxjs';
 import { PageService } from 'app/core/services/page.service';
+import { map, Observable, switchMap } from 'rxjs';
 import { environment } from 'environments/environment';
+import { MemberService } from 'app/features/member-feature/core/services/member.service';
+import { Member } from 'app/features/member-feature/core/models/member.model';
 
-const memberApi = "/api/members";
+const loanApi = "/api/loans";
 
 @Injectable()
-export class MemberService extends AbstractCrudService<Member> {
+export class LoanService extends AbstractCrudService<Loan> {
+  private memberService = inject(MemberService);
 
   constructor(
     protected httpClient: HttpClient,
     private pageService: PageService
   ) {
-    super(httpClient, memberApi);
+    super(httpClient, loanApi)
   }
 
-  protected createModel(data: Member): Member {
-    return new Member(data);
+  protected createModel(data: Loan): Loan {
+    return new Loan(data);
   }
 
-  public members$(): Observable<{
+  public loan$(): Observable<{
     total: number;
-    data: Member[];
+    data: Loan[];
   }> {
     return this.pageService.page$.pipe(
       switchMap((params: HttpParams) => {
         params = params.append("name", this.pageService.page.search);
         return this.httpClient.get<{
           total: number;
-          data: Member[];
-        }>(`${environment.serverUrl}${memberApi}/search`, { params });
+          data: Loan[];
+        }>(`${environment.serverUrl}${loanApi}/search`, { params });
       }),
       map(result => {
         result.data = result.data.map(val => this.createModel(val));
         return result;
       })
-    ); 
+    );
   }
 
   public updatePagination(
@@ -50,6 +53,10 @@ export class MemberService extends AbstractCrudService<Member> {
 
   public onSearch(search = this.pageService.page.search) {
     this.pageService.onSearch(search);
+  }
+
+  public getMembers(): Observable<Member[]> {
+    return this.memberService.getAll();
   }
 
 }

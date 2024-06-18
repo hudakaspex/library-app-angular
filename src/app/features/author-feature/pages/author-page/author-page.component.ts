@@ -4,7 +4,7 @@ import { GeneralTableComponent } from 'app/shared/general-table/general-table.co
 import { TableColumn } from 'app/shared/general-table/models/table-column.model';
 import { AuthorService } from '../../core/services/author.service';
 import { Author } from '../../core/models/author.model';
-import { filter, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { filter, Observable, shareReplay, switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorDialogComponent } from '../../components/author-dialog/author-dialog.component';
 import { Utils } from 'app/shared/utils';
@@ -58,7 +58,7 @@ export class AuthorPageComponent {
         filter(author => Utils.isNotEmpty(author)),
         switchMap(author => this.authorService.create(author))
       )
-      .subscribe(author => {
+      .subscribe(() => {
         this.initAuthor();
       });
   }
@@ -74,7 +74,7 @@ export class AuthorPageComponent {
         filter(author => Utils.isNotEmpty(author)),
         switchMap(author => this.authorService.update(author.id, author))
       )
-      .subscribe(author => {
+      .subscribe(() => {
         this.initAuthor();
       });
   }

@@ -1,0 +1,10 @@
+<app-dialog dialogTitle="Loan" [disabledSave]="!isFormValid()" (onSave)="onSave()" (onCancel)="onCancel()">
+  <div CONTENT>
+    <generic-form 
+      [fieldConfigs]="formConfig" 
+      (submitForm)="onSave()"
+      (formStatus)="isFormValid.set($event)"
+      (formChanges)="loan.set($event)"
+    ></generic-form>
+  </div>
+</app-dialog>
