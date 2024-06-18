@@ -13,12 +13,7 @@ export class InterceptorService implements HttpInterceptor {
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req)
-    .pipe(
-      tap((val: HttpResponse<any>) => {
-        console.log(val.body);
-      })
-    );
+    return next.handle(req);
   }
 
 }

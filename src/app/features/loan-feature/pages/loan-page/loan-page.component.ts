@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, inject, ViewContainerRef } from '@angular/core';
 import { GeneralTableComponent } from 'app/shared/general-table/general-table.component';
 import { LoanDialogComponent } from '../../components/loan-dialog/loan-dialog.component';
 import { LoanService } from '../../core/services/loan.service';
@@ -9,7 +9,6 @@ import { Loan } from '../../core/models/loan.model';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Utils } from 'app/shared/utils';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageEvent } from '@angular/material/paginator';
 import { MemberService } from 'app/features/member-feature/core/services/member.service';
 
@@ -29,7 +28,7 @@ import { MemberService } from 'app/features/member-feature/core/services/member.
     MemberService
   ]
 })
-export class LoanPageComponent implements OnInit {
+export class LoanPageComponent {
   private loanService = inject(LoanService);
   private viewContainerRef = inject(ViewContainerRef);
   private dialog = inject(MatDialog);
@@ -39,21 +38,17 @@ export class LoanPageComponent implements OnInit {
     { label: 'Start Date', propName: 'startDate', type: 'date' },
     { label: 'End Date', propName: 'endDate', type: 'date' },
     { label: 'Returned', propName: 'returnedDate', type: 'date' },
-    { label: 'Status', propName: 'loanStatus', type: 'text' },
+    { label: 'Status', propName: 'status', type: 'text' },
   ];
 
   constructor() {
     this.initData();
   }
 
-  ngOnInit() {
-  }
-
   private initData() {
     this.data$ = this.loanService.loan$()
     .pipe(
       shareReplay(1), 
-      takeUntilDestroyed(),
       map((val: {total: number, data: Loan[]}) => {
         val.data = val.data.map(data => {
           data['memberName'] = data.member?.name;

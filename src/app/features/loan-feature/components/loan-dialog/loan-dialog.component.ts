@@ -51,7 +51,7 @@ export class LoanDialogComponent {
               return { label: member.name, value: member.id }
             }))
           ),
-        value: this.loan().member
+        value: this.loan()?.member?.id
       }
     ]
   }

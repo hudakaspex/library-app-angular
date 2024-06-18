@@ -8,7 +8,7 @@ export class Loan {
     public startDate: number;
     public endDate: number;
     public books: Book[];
-    public loanStatus: LoanStatus;
+    public status: LoanStatus;
     public returnDate: number;
     public member: Member;
 
@@ -16,8 +16,8 @@ export class Loan {
         if (loan) {
             this.id = loan.id;
             this.books = loan.books;
-            this.loanStatus = loan.loanStatus;
             this.member = loan.member;
+            this.status = loan.status;
             this.initReturnDate(loan.returnDate);
             this.initStartDate(loan.startDate);
             this.initEndDate(loan.endDate);
