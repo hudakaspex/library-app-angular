@@ -37,9 +37,15 @@ export class LoanDialogComponent {
     this.formConfig = [
       {
         type: 'date',
-        label: 'Date',
+        label: 'Start Date',
         name: 'startDate',
         value: this.loan().getStartDate
+      },
+      {
+        type: 'date',
+        label: 'End Date',
+        name: 'endDate',
+        value: this.loan().getEndDate
       },
       {
         type: 'select',
@@ -59,6 +65,7 @@ export class LoanDialogComponent {
   public onSave() {
     const loan = new Loan(this.loan());
     loan.id = this.data?.id;
+    loan.status = this.data.status;
     loan.member = new Member({id: (this.loan().member as any)});
     this.dialogRef.close(loan);
   }
