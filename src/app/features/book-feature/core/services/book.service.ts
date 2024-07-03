@@ -7,8 +7,8 @@ import { PageService } from "app/core/services/page.service";
 import { AbstractCrudService } from "app/core/services/abstractCrudService";
 import { Author } from "app/features/author-feature/core/models/author.model";
 
-const bookApi = "/api/books";
-const authorApi = "/api/authors";
+const bookApi = `/api/books`;
+const authorApi = `${environment.serverUrl}/api/authors`;
 
 @Injectable()
 export class BookService extends AbstractCrudService<Book> {
@@ -17,6 +17,10 @@ export class BookService extends AbstractCrudService<Book> {
     private pageService: PageService
   ) {
     super(httpClient, bookApi)
+  }
+
+  public getById(id: number): Observable<Book> {
+    return this.http.get<Book>(`${environment.serverUrl}${bookApi}/${id}`);
   }
 
   protected createModel(data: Book): Book {
@@ -54,7 +58,7 @@ export class BookService extends AbstractCrudService<Book> {
   }
 
   public getAuthors(): Observable<Author[]> {
-    const authors$ = this.httpClient.get(`${environment.serverUrl}${authorApi}`).pipe(map((authors: Author[]) => {
+    const authors$ = this.httpClient.get(`${authorApi}`).pipe(map((authors: Author[]) => {
       return authors.map(val => new Author(val));
     }));
     return authors$;

@@ -1,10 +1,27 @@
-<app-dialog dialogTitle="Loan" [disabledSave]="!isFormValid()" (onSave)="onSave()" (onCancel)="onCancel()">
+<app-dialog
+  dialogTitle="Loan"
+  [disabledSave]="!isFormValid()"
+  (onSave)="onSave()"
+  (onCancel)="onCancel()"
+>
   <div CONTENT>
-    <generic-form 
-      [fieldConfigs]="formConfig" 
+    <generic-form
+      [fieldConfigs]="formConfig"
       (submitForm)="onSave()"
       (formStatus)="isFormValid.set($event)"
       (formChanges)="loan.set($event)"
-    ></generic-form>
+    >
+      <div CUSTOM_FIELD class="w-100">
+        <div class="col-12">
+          <auto-complete
+            [autoCompleteType]="autoCompleteType"
+            (onSelectOption)="onSelectBook($event)"
+          ></auto-complete>
+        </div>
+      </div>
+    </generic-form>
+    @if (books().length > 0) {
+      <loan-books [(books)]="books"></loan-books>
+    }
   </div>
 </app-dialog>

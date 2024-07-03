@@ -15,13 +15,18 @@ export class Loan {
     constructor(loan?: Partial<Loan>) {
         if (loan) {
             this.id = loan.id;
-            this.books = loan.books;
+            this.books = this.mapBooksJson(loan.books);
             this.member = loan.member;
             this.status = loan.status;
             this.initReturnDate(loan.returnDate);
             this.initStartDate(loan.startDate);
             this.initEndDate(loan.endDate);
         }
+    }
+
+    private mapBooksJson(books: any[] = []): Book[] {
+        books = books.map(book => new Book(book));
+        return books;
     }
 
     private initReturnDate(date: number | Date | string) {
