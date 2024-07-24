@@ -31,6 +31,11 @@ export class MemberDialogComponent {
     this.initFormConfig();
   }
 
+  /**
+ * Initializes the form configuration.
+ *
+ * @return {void}
+ */
   initFormConfig() {
     this.formConfig = [
       {
@@ -74,5 +79,4 @@ export class MemberDialogComponent {
   public onCancel() {
     this.dialogRef.close(false);
   }
-
 }

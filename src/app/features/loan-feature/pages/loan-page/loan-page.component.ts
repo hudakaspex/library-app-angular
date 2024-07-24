@@ -11,6 +11,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Utils } from 'app/shared/utils';
 import { PageEvent } from '@angular/material/paginator';
 import { MemberService } from 'app/features/member-feature/core/services/member.service';
+import { CustomAction } from 'app/shared/general-table/models/custom-action.model';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoanStatus } from '../../core/models/loan-status.enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-loan-page',
@@ -20,7 +25,9 @@ import { MemberService } from 'app/features/member-feature/core/services/member.
   imports: [
     CommonModule,
     GeneralTableComponent,
-    LoanDialogComponent
+    LoanDialogComponent,
+    MatButtonModule,
+    MatTooltipModule
   ],
   providers: [
     LoanService,
@@ -30,12 +37,12 @@ import { MemberService } from 'app/features/member-feature/core/services/member.
 })
 export class LoanPageComponent {
   private loanService = inject(LoanService);
+  private toastr = inject(ToastrService);
   private viewContainerRef = inject(ViewContainerRef);
   private dialog = inject(MatDialog);
   public data$: Observable<{ total: number, data: Loan[] }>
   public columns: TableColumn[] = [
     { label: 'Member', propName: 'memberName', type: 'text' },
-    { label: 'Start Date', propName: 'startDate', type: 'date' },
     { label: 'End Date', propName: 'endDate', type: 'date' },
     { label: 'Returned', propName: 'returnedDate', type: 'date' },
     { label: 'Status', propName: 'status', type: 'text' },
@@ -97,6 +104,15 @@ export class LoanPageComponent {
     if (confirm(`Are you sure to delete this loan?`)) {
       this.loanService.delete(loan.id).subscribe(() => {
         this.loanService.onSearch();
+      });
+    }
+  }
+
+  public onChangeStatus(loan: Loan) {
+    if (confirm(`Are you sure to change status this loan to returned?`)) {
+      this.loanService.updateStatus(loan.id, LoanStatus.RETURNED)
+      .subscribe(() => {
+        this.toastr.success("Loan status updated successfully", "Success");
       });
     }
   }

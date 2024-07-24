@@ -1,4 +1,5 @@
 export enum LoanStatus {
     BORROWED,
-    RETURNED
+    RETURNED,
+    CANCELLED
 }

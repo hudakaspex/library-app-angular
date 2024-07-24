@@ -7,8 +7,10 @@ import { map, Observable, switchMap } from 'rxjs';
 import { environment } from 'environments/environment';
 import { MemberService } from 'app/features/member-feature/core/services/member.service';
 import { Member } from 'app/features/member-feature/core/models/member.model';
+import { LoanStatus } from '../models/loan-status.enum';
 
 const loanApi = "/api/loans";
+const statusApi = "/api/loans/updateStatus";
 
 @Injectable()
 export class LoanService extends AbstractCrudService<Loan> {
@@ -42,6 +44,13 @@ export class LoanService extends AbstractCrudService<Loan> {
         return result;
       })
     );
+  }
+
+  public updateStatus(id: number, status: LoanStatus): Observable<any> {
+    return this.httpClient.post(`${environment.serverUrl}${statusApi}`, {
+      id: id,
+      status: status
+    });
   }
 
   public updatePagination(

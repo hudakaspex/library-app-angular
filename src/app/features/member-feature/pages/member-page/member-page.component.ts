@@ -97,5 +97,4 @@ export class MemberPageComponent {
   public onPaginationEvent(event: PageEvent) {
     this.memberService.updatePagination(event.pageSize, event.pageIndex);
   }
-
 }

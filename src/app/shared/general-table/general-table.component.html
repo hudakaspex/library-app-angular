@@ -45,14 +45,16 @@
                 <div class="d-flex align-items-center justify-content-center">
                   <ng-container *ngIf="hasDeleteBtn">
                     <button mat-icon-button (click)="onDelete(val)" matTooltip="Delete">
-                      <i class="fa fa-trash text-danger"></i>
+                      <i class="fa fa-trash" style="font-size: 20px;"></i>
                     </button>
                   </ng-container>
                   <ng-container *ngIf="hasUpdateBtn">
                     <button mat-icon-button (click)="onUpdate(val)" matTooltip="Update">
-                      <i class="fa fa-pencil text-primary"></i>
+                      <i class="fa fa-pencil" style="font-size: 20px;"></i>
                     </button>
                   </ng-container>
+
+                  <ng-container *ngTemplateOutlet="customButtonTemplate; context: { $implicit: val }"></ng-container>
                 </div>
               </td>
             </ng-container>

@@ -1,4 +1,18 @@
-<app-general-table [columns]="columns" [data]="(data$ | async)?.data" [totalData]="(data$ | async)?.total"
-  (onAdd)="onAddEvent()" (onUpdate)="onUpdateEvent($event)" (onDelete)="onDeleteEvent($event)"
-  (onPagination)="onPaginationEvent($event)" (onSearch)="onSearch($event)">
+<app-general-table
+  [columns]="columns"
+  [data]="(data$ | async)?.data"
+  [totalData]="(data$ | async)?.total"
+  (onAdd)="onAddEvent()"
+  (onUpdate)="onUpdateEvent($event)"
+  (onDelete)="onDeleteEvent($event)"
+  (onPagination)="onPaginationEvent($event)"
+  (onSearch)="onSearch($event)"
+  [customButtonTemplate]="customButtonTemplate"
+>
+
+<ng-template #customButtonTemplate let-val>
+  <button mat-icon-button (click)="onChangeStatus(val)" matTooltip="Change status loan to returned">
+    <i class="fa fa-check" style="font-size: 20px;"></i>
+  </button>
+</ng-template>
 </app-general-table>

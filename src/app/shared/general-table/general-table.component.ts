@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  TemplateRef,
 } from "@angular/core";
 import { TableColumn } from "./models/table-column.model";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -18,6 +19,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { PaginationConfig } from "app/core/models/pagination-config";
 import { Utils } from "../utils";
+import { CustomAction } from "./models/custom-action.model";
 
 @Component({
   selector: "app-general-table",
@@ -47,12 +49,16 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   @Input({ required: true }) data: any[];
   @Input() dateFormat = 'dd MMM yyyy';
   @Input() searchPlaceholder = "Search ..."; 
+  @Input() customActions: CustomAction[] = [];
+  @Input() customButtonTemplate: TemplateRef<any>;
+
 
   @Output("onAdd") onAddEvent = new EventEmitter<void>();
   @Output("onUpdate") onUpdateEvent = new EventEmitter<any>();
   @Output("onDelete") onDeleteEvent = new EventEmitter<any>();
   @Output("onPagination") onPaginationEvent = new EventEmitter<PageEvent>();
   @Output("onSearch") searchEvent = new EventEmitter<string>();
+  @Output("onAction") onActionEvent = new EventEmitter<any>();
 
   public paginationConfig = PaginationConfig;
   public searchCtrl = new FormControl();
@@ -108,5 +114,9 @@ export class GeneralTableComponent implements OnInit, OnChanges {
       .subscribe((val) => {
         this.searchEvent.emit(val);
       });
+  }
+
+  public customActionEvent(data, type: string) {
+    this.onActionEvent.emit({ data, type });
   }
 }
