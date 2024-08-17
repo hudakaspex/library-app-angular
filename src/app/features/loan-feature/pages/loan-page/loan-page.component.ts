@@ -44,7 +44,7 @@ export class LoanPageComponent {
   public columns: TableColumn[] = [
     { label: 'Member', propName: 'memberName', type: 'text' },
     { label: 'End Date', propName: 'endDate', type: 'date' },
-    { label: 'Returned', propName: 'returnedDate', type: 'date' },
+    { label: 'Returned', propName: 'returnDate', type: 'date' },
     { label: 'Status', propName: 'status', type: 'text' },
   ];
 
@@ -113,6 +113,7 @@ export class LoanPageComponent {
       this.loanService.updateStatus(loan.id, LoanStatus.RETURNED)
       .subscribe(() => {
         this.toastr.success("Loan status updated successfully", "Success");
+        this.initData();
       });
     }
   }

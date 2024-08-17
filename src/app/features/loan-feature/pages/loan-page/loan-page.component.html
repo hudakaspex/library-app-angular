@@ -11,8 +11,10 @@
 >
 
 <ng-template #customButtonTemplate let-val>
-  <button mat-icon-button (click)="onChangeStatus(val)" matTooltip="Change status loan to returned">
-    <i class="fa fa-check" style="font-size: 20px;"></i>
-  </button>
+  @if (val.status != 'RETURNED') {
+    <button mat-icon-button (click)="onChangeStatus(val)" matTooltip="Change status loan to returned">
+      <i class="fa fa-check" style="font-size: 20px;"></i>
+    </button>
+  }
 </ng-template>
 </app-general-table>

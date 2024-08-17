@@ -33,7 +33,6 @@ export class LoanService extends AbstractCrudService<Loan> {
   }> {
     return this.pageService.page$.pipe(
       switchMap((params: HttpParams) => {
-        params = params.append("name", this.pageService.page.search);
         return this.httpClient.get<{
           total: number;
           data: Loan[];
@@ -61,11 +60,13 @@ export class LoanService extends AbstractCrudService<Loan> {
   }
 
   public onSearch(search = this.pageService.page.search) {
-    this.pageService.onSearch(search);
+    this.pageService.onFilter({
+      ...this.pageService.page,
+      name: search
+    });
   }
 
   public getMembers(): Observable<Member[]> {
     return this.memberService.getAll();
   }
-
 }

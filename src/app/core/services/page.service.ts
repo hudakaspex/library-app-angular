@@ -14,10 +14,12 @@ export class PageService {
   
   public readonly page$ = this._pageSubject.asObservable()
     .pipe(
-      map(pageEvent => {
+      map((pageEvent) => {
         let params = new HttpParams();
-        params = params.append("pageSize", pageEvent.pageSize);
-        params = params.append("pageNumber", pageEvent.pageNumber);
+        const propParams = Object.keys(pageEvent);
+        propParams.forEach((prop) => {
+          params = params.append(prop, pageEvent[prop]);
+        });
         return params;
       })
     );
@@ -44,5 +46,12 @@ export class PageService {
       pageSize: this.page.pageSize,
       search,
     });
+  }
+
+  public onFilter(filter = {}) {
+    this._pageSubject.next({
+      ...this.page,
+      ...filter
+    })
   }
 }
