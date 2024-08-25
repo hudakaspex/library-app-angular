@@ -38,7 +38,6 @@ export class LoanService extends AbstractCrudService<Loan> {
   }> {
     return this.pageService.page$.pipe(
       switchMap((params: HttpParams) => {
-        params = params.append("status", LoanStatus.BORROWED);
         return this.httpClient.get<{
           total: number;
           data: Loan[];

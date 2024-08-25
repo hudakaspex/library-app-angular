@@ -4,14 +4,13 @@ import { LoanDialogComponent } from '../../components/loan-dialog/loan-dialog.co
 import { LoanService } from '../../core/services/loan.service';
 import { PageService } from 'app/core/services/page.service';
 import { TableColumn } from 'app/shared/general-table/models/table-column.model';
-import { filter, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { filter, map, Observable, shareReplay, switchMap, tap } from 'rxjs';
 import { Loan } from '../../core/models/loan.model';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Utils } from 'app/shared/utils';
 import { PageEvent } from '@angular/material/paginator';
 import { MemberService } from 'app/features/member-feature/core/services/member.service';
-import { CustomAction } from 'app/shared/general-table/models/custom-action.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoanStatus } from '../../core/models/loan-status.enum';
@@ -55,21 +54,26 @@ export class LoanPageComponent {
   }
 
   private initData() {
+    this.loanService.onFilter({status: LoanStatus.BORROWED} as LoanFilter)
     this.data$ = this.loanService.loan$()
-    .pipe(
-      shareReplay(1), 
-      map((val: {total: number, data: Loan[]}) => {
-        val.data = val.data.map(data => {
-          data['memberName'] = data.member?.name;
-          return data;
-        });
-        return val;
-      })
-    );
+      .pipe(
+        shareReplay(1),
+        this.mapResponse()
+      );
+  }
+
+  private mapResponse() {
+    return map((val: { total: number, data: Loan[] }) => {
+      val.data = val.data.map(data => {
+        data['memberName'] = data.member?.name;
+        return data;
+      });
+      return val;
+    })
   }
 
   public onAddEvent() {
-    this.dialog.open(LoanDialogComponent, {
+    this.data$ = this.dialog.open(LoanDialogComponent, {
       width: "700px",
       disableClose: true,
       viewContainerRef: this.viewContainerRef
@@ -77,15 +81,19 @@ export class LoanPageComponent {
       .afterClosed()
       .pipe(
         filter(loan => Utils.isNotEmpty(loan)),
-        switchMap(loan => this.loanService.create(loan))
+        switchMap(loan => this.loanService.create(loan)),
+        switchMap(() => {
+          return this.loanService.loan$()
+            .pipe(
+              this.mapResponse()
+            );
+        }),
+        shareReplay(1),
       )
-      .subscribe(() => {
-        this.initData();
-      });
   }
 
   public onUpdateEvent(loan: Loan) {
-    this.dialog.open(LoanDialogComponent, {
+    this.data$ = this.dialog.open(LoanDialogComponent, {
       width: "700px",
       disableClose: true,
       data: loan,
@@ -95,35 +103,52 @@ export class LoanPageComponent {
       .afterClosed()
       .pipe(
         filter(loan => Utils.isNotEmpty(loan)),
-        switchMap(loan => this.loanService.update(loan.id, loan))
+        switchMap(loan => this.loanService.update(loan.id, loan)),
+        switchMap(() => {
+          return this.loanService.loan$()
+            .pipe(
+              this.mapResponse()
+            );
+        }),
+        shareReplay(1),
       )
-      .subscribe(() => {
-        this.initData();
-      });
   }
 
   public onDeleteEvent(loan: Loan) {
     if (confirm(`Are you sure to delete this loan?`)) {
-      this.loanService.delete(loan.id).subscribe(() => {
-        this.loanService.onFilter();
-      });
+      this.data$ = this.loanService.delete(loan.id)
+        .pipe(
+          switchMap(() => {
+            return this.loanService.loan$()
+              .pipe(
+                this.mapResponse()
+              );
+          }),
+          shareReplay(1),
+        );
     }
   }
 
   public onChangeStatus(loan: Loan) {
     if (confirm(`Are you sure to change status this loan to returned?`)) {
-      this.loanService.updateStatus(loan.id, LoanStatus.RETURNED)
-      .subscribe(() => {
-        this.toastr.success("Loan status updated successfully", "Success");
-        this.initData();
-      });
+      this.data$ = this.loanService.updateStatus(loan.id, LoanStatus.RETURNED)
+        .pipe(
+          tap(() => {
+            this.toastr.success("Loan status updated successfully", "Success");
+          }),
+          switchMap(() => {
+            return this.loanService.loan$()
+              .pipe(
+                this.mapResponse()
+              );
+          }),
+          shareReplay(1)
+        );
     }
   }
 
   public onSearch(search: string) {
-    const currentFilter = this.loanService.currentFilter as LoanFilter;
-    currentFilter.name = search;
-    this.loanService.onFilter(currentFilter);
+    this.loanService.onFilter({name: search} as LoanFilter);
   }
 
   public onPaginationEvent(event: PageEvent) {
@@ -135,19 +160,19 @@ export class LoanPageComponent {
       width: '400px',
       data: this.loanService.currentFilter
     })
-    .afterClosed()
-    .pipe(
-      filter(val => Utils.isNotEmpty(val)),
-    )
-    .subscribe((loanFilter: LoanFilter) => {
-      let currentFilter = this.loanService.currentFilter as LoanFilter;
-      if(Utils.isEmpty(loanFilter.status)) {
-        delete currentFilter.status;
-      }
-      else {
-        currentFilter = {...currentFilter, ...loanFilter}
-      }
-      this.loanService.onFilter(currentFilter);
-    });
+      .afterClosed()
+      .pipe(
+        filter(val => Utils.isNotEmpty(val)),
+      )
+      .subscribe((loanFilter: LoanFilter) => {
+        let currentFilter = this.loanService.currentFilter as LoanFilter;
+        if (Utils.isEmpty(loanFilter.status)) {
+          delete currentFilter.status;
+        }
+        else {
+          currentFilter = { ...currentFilter, ...loanFilter }
+        }
+        this.loanService.onFilter(currentFilter);
+      });
   }
 }
