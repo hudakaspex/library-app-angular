@@ -8,6 +8,8 @@
   (onPagination)="onPaginationEvent($event)"
   (onSearch)="onSearch($event)"
   [customButtonTemplate]="customButtonTemplate"
+  [hasfilter]="true"
+  (onFilter)="onFilter()"
 >
 
 <ng-template #customButtonTemplate let-val>

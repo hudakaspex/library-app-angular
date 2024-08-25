@@ -24,6 +24,7 @@ interface FieldSelect extends FormFieldConfig {
     type: 'select',
     options?: {label: string, value: any}[],
     asyncOptions?: Observable<{label: string, value: any}[]>;
+    hasClear?: boolean
 }
 
 interface FieldTextArea extends FormFieldConfig {

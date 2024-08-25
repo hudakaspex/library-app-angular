@@ -1,6 +1,9 @@
 <mat-form-field [appearance]="appearance" class="w-100">
   <mat-label>{{label}}</mat-label>
   <mat-select [formControl]="formControl" (selectionChange)="onSelectChange($event.value)">
+    @if (hasClear) {
+      <mat-option [value]="undefined">None</mat-option>
+    }
     <mat-option *ngFor="let val of options" [value]="val.value">
       {{val.label}}
     </mat-option>

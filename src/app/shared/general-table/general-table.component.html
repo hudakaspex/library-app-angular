@@ -3,9 +3,9 @@
     <div class="card mt-0">
       <div class="card-body">
         <div class="card-title font-weight-bold d-flex align-items-center justify-content-between">
-          <div class="w-25 d-flex align-items-center gap-4">
+          <div class="d-flex" style="width: 32%;">
             <ng-container *ngIf="hasSearchInput">
-              <mat-form-field class="w-100">
+              <mat-form-field class="w-100 mr-2">
                 <mat-label>Search</mat-label>
                 <input type="text" matInput [placeholder]="searchPlaceholder" [formControl]="searchCtrl">
                 <span matSuffix class="mr-2">
@@ -13,11 +13,14 @@
                 </span>
               </mat-form-field>
             </ng-container>
-            <div class="example-button-container">
-              <button mat-mini-fab aria-label="Example icon button with a menu icon">
-                <i class="fa fa-filter"></i>
-              </button>
-            </div>
+            @if (hasfilter) {
+              <div matTooltip="Filter">
+                <button mat-stroked-button aria-label="Filter" color="dark" style="height: 57px;"
+                (click)="onFilter()">
+                  <i class="fa fa-filter" style="font-size: 20px;"></i>
+                </button>
+              </div>
+            }
           </div>
           <div>
             <ng-container *ngIf="hasCreateBtn">

@@ -1,0 +1,13 @@
+<app-dialog
+  dialogTitle="Filter Loan"
+  (onSave)="onSave()"
+  (onCancel)="onCancel()"
+>
+  <div CONTENT>
+    <generic-form
+      [fieldConfigs]="formConfig"
+      (submitForm)="onSave()"
+      (formChanges)="loanFilter.set($event)"
+    ></generic-form>
+  </div>
+</app-dialog>

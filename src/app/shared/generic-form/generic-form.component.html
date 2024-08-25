@@ -27,6 +27,7 @@
         [options]="
           field.asyncOptions ? (field.asyncOptions | async) : field.options
         "
+        [hasClear]="field.hasClear"
         [label]="field.label"
         [formControlName]="field.name"
         [errorMessage]="getErrorMessage(field)"

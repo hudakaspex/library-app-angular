@@ -16,6 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoanStatus } from '../../core/models/loan-status.enum';
 import { ToastrService } from 'ngx-toastr';
+import { LoanFilterDialogComponent } from '../../components/loan-filter-dialog/loan-filter-dialog.component';
+import { LoanFilter } from '../../core/models/loan-filter.model';
 
 @Component({
   selector: 'app-loan-page',
@@ -103,7 +105,7 @@ export class LoanPageComponent {
   public onDeleteEvent(loan: Loan) {
     if (confirm(`Are you sure to delete this loan?`)) {
       this.loanService.delete(loan.id).subscribe(() => {
-        this.loanService.onSearch();
+        this.loanService.onFilter();
       });
     }
   }
@@ -119,10 +121,33 @@ export class LoanPageComponent {
   }
 
   public onSearch(search: string) {
-    this.loanService.onSearch(search);
+    const currentFilter = this.loanService.currentFilter as LoanFilter;
+    currentFilter.name = search;
+    this.loanService.onFilter(currentFilter);
   }
 
   public onPaginationEvent(event: PageEvent) {
     this.loanService.updatePagination(event.pageSize, event.pageIndex);
+  }
+
+  public onFilter() {
+    this.dialog.open(LoanFilterDialogComponent, {
+      width: '400px',
+      data: this.loanService.currentFilter
+    })
+    .afterClosed()
+    .pipe(
+      filter(val => Utils.isNotEmpty(val)),
+    )
+    .subscribe((loanFilter: LoanFilter) => {
+      let currentFilter = this.loanService.currentFilter as LoanFilter;
+      if(Utils.isEmpty(loanFilter.status)) {
+        delete currentFilter.status;
+      }
+      else {
+        currentFilter = {...currentFilter, ...loanFilter}
+      }
+      this.loanService.onFilter(currentFilter);
+    });
   }
 }

@@ -31,6 +31,7 @@ export class SelectFieldComponent implements OnInit {
   @Input() options: {value: any, label: string}[];
   @Input() appearance: MatFormFieldAppearance = "outline";
   @Input() errorMessage: string;
+  @Input() hasClear = false;
   public formControl: FormControl;
 
   value: string = "";

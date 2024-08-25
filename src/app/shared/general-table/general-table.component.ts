@@ -44,6 +44,7 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   @Input() hasDeleteBtn = true;
   @Input() hasUpdateBtn = true;
   @Input() hasSearchInput = true;
+  @Input() hasfilter = false;
   @Input() columns: TableColumn[] = [];
   @Input() totalData: number;
   @Input({ required: true }) data: any[];
@@ -52,13 +53,13 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   @Input() customActions: CustomAction[] = [];
   @Input() customButtonTemplate: TemplateRef<any>;
 
-
   @Output("onAdd") onAddEvent = new EventEmitter<void>();
   @Output("onUpdate") onUpdateEvent = new EventEmitter<any>();
   @Output("onDelete") onDeleteEvent = new EventEmitter<any>();
   @Output("onPagination") onPaginationEvent = new EventEmitter<PageEvent>();
   @Output("onSearch") searchEvent = new EventEmitter<string>();
   @Output("onAction") onActionEvent = new EventEmitter<any>();
+  @Output("onFilter") onFilterEvent = new EventEmitter<void>();
 
   public paginationConfig = PaginationConfig;
   public searchCtrl = new FormControl();
@@ -102,6 +103,10 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   
   public onUpdate(data: any) {
     this.onUpdateEvent.emit(data);
+  }
+
+  public onFilter() {
+    this.onFilterEvent.emit();
   }
 
   public pageEvent(event: PageEvent) {

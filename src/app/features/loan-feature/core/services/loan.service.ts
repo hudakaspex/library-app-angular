@@ -8,6 +8,7 @@ import { environment } from 'environments/environment';
 import { MemberService } from 'app/features/member-feature/core/services/member.service';
 import { Member } from 'app/features/member-feature/core/models/member.model';
 import { LoanStatus } from '../models/loan-status.enum';
+import { LoanFilter } from '../models/loan-filter.model';
 
 const loanApi = "/api/loans";
 const statusApi = "/api/loans/updateStatus";
@@ -27,12 +28,17 @@ export class LoanService extends AbstractCrudService<Loan> {
     return new Loan(data);
   }
 
+  public get currentFilter() {
+    return this.pageService.page;
+  }
+
   public loan$(): Observable<{
     total: number;
     data: Loan[];
   }> {
     return this.pageService.page$.pipe(
       switchMap((params: HttpParams) => {
+        params = params.append("status", LoanStatus.BORROWED);
         return this.httpClient.get<{
           total: number;
           data: Loan[];
@@ -59,11 +65,8 @@ export class LoanService extends AbstractCrudService<Loan> {
     this.pageService.updatePagination(pageSize, pageNumber);
   }
 
-  public onSearch(search = this.pageService.page.search) {
-    this.pageService.onFilter({
-      ...this.pageService.page,
-      name: search
-    });
+  public onFilter(filter: LoanFilter = {} as LoanFilter) {
+    this.pageService.onFilter(filter);
   }
 
   public getMembers(): Observable<Member[]> {
