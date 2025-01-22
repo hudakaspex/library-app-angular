@@ -43,9 +43,17 @@ export class AuthorPageComponent {
     this.initAuthor();
   }
 
+  /**
+   * Initializes the author data stream by subscribing to the authors$ observable
+   * from the authorService and sharing the latest emitted value with multiple subscribers.
+   * The data stream is shared and replayed to ensure that all subscribers receive the same
+   * emitted value.
+   *
+   * @private
+   */
   private initAuthor() {
     this.data$ = this.authorService.authors$()
-    .pipe(shareReplay(1), takeUntilDestroyed());
+    .pipe(shareReplay(1));
   }
 
   public onAddEvent() {

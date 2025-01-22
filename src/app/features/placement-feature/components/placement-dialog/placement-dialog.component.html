@@ -1,0 +1,15 @@
+<app-dialog
+  dialogTitle="Placement"
+  [disabledSave]="!isFormValid()"
+  (onSave)="onSave()"
+  (onCancel)="onCancel()"
+>
+  <div CONTENT>
+    <generic-form
+      [fieldConfigs]="formConfig"
+      (submitForm)="onSave()"
+      (formStatus)="isFormValid.set($event)"
+      (formChanges)="placement.set($event)"
+    ></generic-form>
+  </div>
+</app-dialog>

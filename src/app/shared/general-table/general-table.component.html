@@ -2,12 +2,19 @@
   <div class="col-12">
     <div class="card mt-0">
       <div class="card-body">
-        <div class="card-title font-weight-bold d-flex align-items-center justify-content-between">
-          <div class="d-flex" style="width: 32%;">
+        <div
+          class="card-title font-weight-bold d-flex align-items-center justify-content-between"
+        >
+          <div class="d-flex" style="width: 32%">
             <ng-container *ngIf="hasSearchInput">
               <mat-form-field class="w-100 mr-2">
                 <mat-label>Search</mat-label>
-                <input type="text" matInput [placeholder]="searchPlaceholder" [formControl]="searchCtrl">
+                <input
+                  type="text"
+                  matInput
+                  [placeholder]="searchPlaceholder"
+                  [formControl]="searchCtrl"
+                />
                 <span matSuffix class="mr-2">
                   <i class="fa fa-search"></i>
                 </span>
@@ -15,32 +22,37 @@
             </ng-container>
             @if (hasfilter) {
               <div matTooltip="Filter">
-                <button mat-stroked-button aria-label="Filter" color="dark" style="height: 57px;"
-                (click)="onFilter()">
-                  <i class="fa fa-filter" style="font-size: 20px;"></i>
+                <button
+                  mat-stroked-button
+                  aria-label="Filter"
+                  color="dark"
+                  style="height: 57px"
+                  (click)="onFilter()"
+                >
+                  <i class="fa fa-filter" style="font-size: 20px"></i>
                 </button>
               </div>
             }
           </div>
           <div>
             <ng-container *ngIf="hasCreateBtn">
-              <button mat-flat-button color="primary" (click)="onAdd()">Add</button>
+              <button mat-flat-button color="primary" (click)="onAdd()">
+                Add
+              </button>
             </ng-container>
           </div>
         </div>
         <table mat-table [dataSource]="dataSource" class="w-100">
           <ng-container *ngFor="let column of columns">
             <ng-container [matColumnDef]="column.propName">
-              <th mat-header-cell *matHeaderCellDef>{{column.label}}</th>
+              <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
               <td mat-cell *matCellDef="let val">
-                @if (column.type == 'text') {
-                {{val[column.propName]}}
-                }
-                @else if(column.type == 'date') {
-                {{val[column.propName] | date: dateFormat}}
-                }
-                @else if (column.type == 'number') {
-                {{val[column.propName] | number}}
+                @if (column.type == "text") {
+                  {{ val[column.propName] }}
+                } @else if (column.type == "date") {
+                  {{ val[column.propName] | date: dateFormat }}
+                } @else if (column.type == "number") {
+                  {{ val[column.propName] | number }}
                 }
               </td>
             </ng-container>
@@ -52,28 +64,46 @@
               <td mat-cell *matCellDef="let val">
                 <div class="d-flex align-items-center justify-content-center">
                   <ng-container *ngIf="hasDeleteBtn">
-                    <button mat-icon-button (click)="onDelete(val)" matTooltip="Delete">
-                      <i class="fa fa-trash" style="font-size: 20px;"></i>
+                    <button
+                      mat-icon-button
+                      (click)="onDelete(val)"
+                      matTooltip="Delete"
+                    >
+                      <i class="fa fa-trash" style="font-size: 20px"></i>
                     </button>
                   </ng-container>
                   <ng-container *ngIf="hasUpdateBtn">
-                    <button mat-icon-button (click)="onUpdate(val)" matTooltip="Update">
-                      <i class="fa fa-pencil" style="font-size: 20px;"></i>
+                    <button
+                      mat-icon-button
+                      (click)="onUpdate(val)"
+                      matTooltip="Update"
+                    >
+                      <i class="fa fa-pencil" style="font-size: 20px"></i>
                     </button>
                   </ng-container>
 
-                  <ng-container *ngTemplateOutlet="customButtonTemplate; context: { $implicit: val }"></ng-container>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      customButtonTemplate;
+                      context: { $implicit: val }
+                    "
+                  ></ng-container>
                 </div>
               </td>
             </ng-container>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
         <ng-container *ngIf="hasPaginator">
-          <mat-paginator [length]="totalData" [pageSize]="paginationConfig.pageSize"
-            [pageSizeOptions]="paginationConfig.pageSizeOptions" (page)="pageEvent($event)" aria-label="Select page">
+          <mat-paginator
+            [length]="totalData"
+            [pageSize]="paginationConfig.pageSize"
+            [pageSizeOptions]="paginationConfig.pageSizeOptions"
+            (page)="pageEvent($event)"
+            aria-label="Select page"
+          >
           </mat-paginator>
         </ng-container>
       </div>
