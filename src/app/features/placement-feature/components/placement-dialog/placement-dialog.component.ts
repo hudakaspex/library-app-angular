@@ -19,7 +19,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
   standalone: true,
   imports: [CommonModule, GenericFormComponent, DialogComponent],
 })
-export class PlacementDialogComponent implements OnInit {
+export class PlacementDialogComponent {
   private dialogRef = inject(MatDialogRef);
   private data = inject(MAT_DIALOG_DATA);
   public isFormValid = signal(false);
@@ -32,15 +32,10 @@ export class PlacementDialogComponent implements OnInit {
     this.initFormConfig();
   }
 
-  ngOnInit() {
-    this.initFormConfig();
-  }
-
   private initFormConfig() {
     this.formConfig = [
       {
         type: "input",
-        value: this.placement().shelf,
         label: "Shelf",
         name: "shelf",
         validators: [{ type: "required", errorMessage: "Shelf is required" }],

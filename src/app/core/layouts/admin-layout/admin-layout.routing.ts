@@ -9,27 +9,49 @@ export const AdminLayoutRoutes: Routes = [
       {
         path: "",
         redirectTo: "book",
-        pathMatch: "full"
+        pathMatch: "full",
       },
       {
         path: "book",
-        loadComponent: () => import("../../../features/book-feature/pages/book-page/book-page.component").then((x) => x.BookPageComponent),
+        loadComponent: () =>
+          import(
+            "../../../features/book-feature/pages/book-page/book-page.component"
+          ).then((x) => x.BookPageComponent),
       },
       {
         path: "placement",
-        loadComponent: () => import("../../../features/placement-feature/pages/placement-page/placement-page.component").then((x) => x.PlacementPageComponent),
+        loadComponent: () =>
+          import(
+            "../../../features/placement-feature/pages/placement-page/placement-page.component"
+          ).then((x) => x.PlacementPageComponent),
+      },
+      {
+        path: "shelves",
+        loadComponent: () =>
+          import(
+            "../../../features/shelves-feature/pages/shelves-page/shelves-page.component"
+          ).then((x) => x.ShelvesPageComponent),
       },
       {
         path: "author",
-        loadComponent: () => import("../../../features/author-feature/pages/author-page/author-page.component").then((x) => x.AuthorPageComponent),
+        loadComponent: () =>
+          import(
+            "../../../features/author-feature/pages/author-page/author-page.component"
+          ).then((x) => x.AuthorPageComponent),
       },
       {
         path: "member",
-        loadComponent: () => import("../../../features/member-feature/pages/member-page/member-page.component").then((x) => x.MemberPageComponent),
+        loadComponent: () =>
+          import(
+            "../../../features/member-feature/pages/member-page/member-page.component"
+          ).then((x) => x.MemberPageComponent),
       },
       {
         path: "loan",
-        loadComponent: () => import("../../../features/loan-feature/pages/loan-page/loan-page.component").then((x) => x.LoanPageComponent),
+        loadComponent: () =>
+          import(
+            "../../../features/loan-feature/pages/loan-page/loan-page.component"
+          ).then((x) => x.LoanPageComponent),
       },
     ],
   },

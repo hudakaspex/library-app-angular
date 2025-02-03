@@ -68,7 +68,7 @@ export class PlacementPageComponent {
   public onDeleteEvent(placement: Placement) {
     if (
       confirm(
-        `Are you sure to delete placement ${placement.shelf}-${placement.level}-${placement.section}?`
+        `Are you sure to delete placement ${placement.level}-${placement.section}?`
       )
     ) {
       this.placementService.delete(placement.id).subscribe(() => {

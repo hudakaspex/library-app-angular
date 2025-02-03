@@ -1,0 +1,15 @@
+<app-dialog
+  dialogTitle="Shelves"
+  [disabledSave]="!isFormValid()"
+  (onSave)="onSave()"
+  (onCancel)="onCancel()"
+>
+  <div CONTENT>
+    <generic-form
+      [fieldConfigs]="formConfig"
+      (submitForm)="onSave()"
+      (formStatus)="isFormValid.set($event)"
+      (formChanges)="shelves.set($event)"
+    ></generic-form>
+  </div>
+</app-dialog>
