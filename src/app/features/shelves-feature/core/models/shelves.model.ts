@@ -5,7 +5,7 @@ export class Shelves {
   public label: string;
   public placements: Placement[];
 
-  constructor(shelves?: Shelves) {
+  constructor(shelves?: Partial<Shelves>) {
     if (shelves) {
       this.id = shelves.id;
       this.label = shelves.label;

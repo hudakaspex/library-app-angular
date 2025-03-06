@@ -35,6 +35,20 @@ export class ShelvesService extends AbstractCrudService<Shelves> {
     );
   }
 
+  public findAll() {
+    let params = new HttpParams();
+    params = params.append("pageSize", 1000);
+    params = params.append("pageNumber", 0);
+    return this.httpClient.get<{ total: number; data: Shelves[] }>(
+      `${environment.serverUrl}${shelvesApi}`,
+      { params }
+    );
+  }
+
+  public searchShelves(search = this.pageService.page.keyword) {
+    this.pageService.onSearch(search);
+  }
+
   public updatePagination(pageSize: number, pageNumber: number) {
     this.pageService.updatePagination(pageSize, pageNumber);
   }

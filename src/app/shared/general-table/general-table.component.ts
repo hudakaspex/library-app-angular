@@ -48,8 +48,8 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   @Input() columns: TableColumn[] = [];
   @Input() totalData: number;
   @Input({ required: true }) data: any[];
-  @Input() dateFormat = 'dd MMM yyyy';
-  @Input() searchPlaceholder = "Search ..."; 
+  @Input() dateFormat = "dd MMM yyyy";
+  @Input() searchPlaceholder = "Search ...";
   @Input() customActions: CustomAction[] = [];
   @Input() customButtonTemplate: TemplateRef<any>;
 
@@ -100,7 +100,7 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   public onDelete(data: any) {
     this.onDeleteEvent.emit(data);
   }
-  
+
   public onUpdate(data: any) {
     this.onUpdateEvent.emit(data);
   }
@@ -114,11 +114,9 @@ export class GeneralTableComponent implements OnInit, OnChanges {
   }
 
   private initSearch() {
-    this.searchCtrl.valueChanges
-      .pipe(Utils.searchPipe())
-      .subscribe((val) => {
-        this.searchEvent.emit(val);
-      });
+    this.searchCtrl.valueChanges.pipe(Utils.searchPipe()).subscribe((val) => {
+      this.searchEvent.emit(val);
+    });
   }
 
   public customActionEvent(data, type: string) {

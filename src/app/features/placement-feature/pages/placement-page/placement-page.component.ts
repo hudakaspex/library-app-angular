@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit, ViewContainerRef } from "@angular/core";
 import { GeneralTableComponent } from "app/shared/general-table/general-table.component";
 import { TableColumn } from "app/shared/general-table/models/table-column.model";
 import { filter, Observable, shareReplay, switchMap } from "rxjs";
@@ -9,6 +9,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { PageService } from "app/core/services/page.service";
 import { MatDialog } from "@angular/material/dialog";
 import { PlacementDialogComponent } from "../../components/placement-dialog/placement-dialog.component";
+import { ShelvesService } from "app/features/shelves-feature/core/services/shelves.service";
 
 @Component({
   selector: "app-placement-page",
@@ -16,7 +17,7 @@ import { PlacementDialogComponent } from "../../components/placement-dialog/plac
   styleUrls: ["./placement-page.component.scss"],
   standalone: true,
   imports: [CommonModule, GeneralTableComponent],
-  providers: [PlacementService, PageService],
+  providers: [PlacementService, PageService, ShelvesService],
 })
 export class PlacementPageComponent {
   private dialog = inject(MatDialog);
@@ -27,9 +28,10 @@ export class PlacementPageComponent {
     { label: "Shelf", propName: "shelf", type: "text" },
     { label: "Level", propName: "level", type: "number" },
     { label: "Section", propName: "section", type: "number" },
+    { label: "Book", propName: "book", type: "text" },
   ];
 
-  constructor() {
+  constructor(private viewContainerRef: ViewContainerRef) {
     this.initData();
   }
 
@@ -39,7 +41,9 @@ export class PlacementPageComponent {
 
   public onAddEvent() {
     this.dialog
-      .open(PlacementDialogComponent)
+      .open(PlacementDialogComponent, {
+        viewContainerRef: this.viewContainerRef,
+      })
       .afterClosed()
       .pipe(
         filter((placement) => !!placement),
@@ -52,7 +56,10 @@ export class PlacementPageComponent {
 
   public onUpdateEvent(placement: Placement) {
     this.dialog
-      .open(PlacementDialogComponent, { data: placement })
+      .open(PlacementDialogComponent, {
+        data: placement,
+        viewContainerRef: this.viewContainerRef,
+      })
       .afterClosed()
       .pipe(
         filter((placement) => !!placement),

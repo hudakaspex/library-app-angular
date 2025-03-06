@@ -10,6 +10,18 @@
       (submitForm)="onSave()"
       (formStatus)="isFormValid.set($event)"
       (formChanges)="placement.set($event)"
-    ></generic-form>
+    >
+      <div CUSTOM_FIELD class="w-100">
+        <div class="col-6">
+          <auto-complete
+            label="Search Books"
+            placeholder="Search ..."
+            [autoCompleteType]="autoCompleteType"
+            (onSelectOption)="onSelectBook($event)"
+            [clearOnSelect]="false"
+          ></auto-complete>
+        </div>
+      </div>
+    </generic-form>
   </div>
 </app-dialog>

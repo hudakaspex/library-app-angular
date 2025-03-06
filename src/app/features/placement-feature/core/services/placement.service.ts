@@ -1,15 +1,17 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { AbstractCrudService } from "app/core/services/abstractCrudService";
 import { Placement } from "../models/placement.model";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { PageService } from "app/core/services/page.service";
 import { map, Observable, switchMap } from "rxjs";
 import { environment } from "environments/environment";
+import { ShelvesService } from "app/features/shelves-feature/core/services/shelves.service";
 
 const placementApi = "/api/placements";
 
 @Injectable()
 export class PlacementService extends AbstractCrudService<Placement> {
+  private shelvesService = inject(ShelvesService);
   protected createModel(data: Placement): Placement {
     return new Placement(data);
   }
@@ -41,5 +43,9 @@ export class PlacementService extends AbstractCrudService<Placement> {
 
   public updatePagination(pageSize: number, pageNumber: number) {
     this.pageService.updatePagination(pageSize, pageNumber);
+  }
+
+  public getShelves() {
+    return this.shelvesService.findAll();
   }
 }

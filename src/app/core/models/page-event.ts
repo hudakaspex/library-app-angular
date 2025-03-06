@@ -1,5 +1,5 @@
 export class PageEvent {
-    search?: string;
-    pageNumber?: number;
-    pageSize?: number;
+  keyword?: string;
+  pageNumber?: number;
+  pageSize?: number;
 }

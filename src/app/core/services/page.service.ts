@@ -9,20 +9,19 @@ export class PageService {
   private _pageSubject: BehaviorSubject<PageEvent> = new BehaviorSubject({
     pageNumber: 0,
     pageSize: PaginationConfig.pageSize,
-    search: "",
+    keyword: "",
   });
-  
-  public readonly page$ = this._pageSubject.asObservable()
-    .pipe(
-      map((pageEvent) => {
-        let params = new HttpParams();
-        const propParams = Object.keys(pageEvent);
-        propParams.forEach((prop) => {
-          params = params.append(prop, pageEvent[prop]);
-        });
-        return params;
-      })
-    );
+
+  public readonly page$ = this._pageSubject.asObservable().pipe(
+    map((pageEvent) => {
+      let params = new HttpParams();
+      const propParams = Object.keys(pageEvent);
+      propParams.forEach((prop) => {
+        params = params.append(prop, pageEvent[prop]);
+      });
+      return params;
+    })
+  );
 
   public get page() {
     return this._pageSubject.value;
@@ -35,23 +34,23 @@ export class PageService {
     this._pageSubject.next({
       pageNumber,
       pageSize,
-      search: this.page.search,
+      keyword: this.page.keyword,
     });
   }
 
   // used when table has pagination
-  public onSearch(search = this.page.search): void {
+  public onSearch(keyword = this.page.keyword): void {
     this._pageSubject.next({
       pageNumber: this.page.pageNumber,
       pageSize: this.page.pageSize,
-      search,
+      keyword,
     });
   }
 
   public onFilter(filter = {}) {
     this._pageSubject.next({
       ...this.page,
-      ...filter
-    })
+      ...filter,
+    });
   }
 }

@@ -73,6 +73,10 @@ export class ShelvesPageComponent {
     }
   }
 
+  public onSearchEvent(search: string) {
+    this.shelvesService.searchShelves(search);
+  }
+
   public onPaginationEvent(event: PageEvent) {
     this.shelvesService.updatePagination(event.pageSize, event.pageIndex);
   }

@@ -16,7 +16,7 @@ export class BookService extends AbstractCrudService<Book> {
     private httpClient: HttpClient,
     private pageService: PageService
   ) {
-    super(httpClient, bookApi)
+    super(httpClient, bookApi);
   }
 
   public getById(id: number): Observable<Book> {
@@ -33,34 +33,33 @@ export class BookService extends AbstractCrudService<Book> {
   }> {
     return this.pageService.page$.pipe(
       switchMap((params: HttpParams) => {
-        params = params.append("title", this.pageService.page.search);
+        params = params.append("title", this.pageService.page.keyword);
         return this.httpClient.get<{
           total: number;
           data: Book[];
         }>(`${environment.serverUrl}${bookApi}`, { params });
       }),
-      map(result => {
+      map((result) => {
         result.data = result.data.map(this.createModel);
         return result;
       })
     );
   }
 
-  public updatePagination(
-    pageSize: number,
-    pageNumber: number
-  ) {
+  public updatePagination(pageSize: number, pageNumber: number) {
     this.pageService.updatePagination(pageSize, pageNumber);
   }
 
-  public searchBook(search = this.pageService.page.search) {
+  public searchBook(search = this.pageService.page.keyword) {
     this.pageService.onSearch(search);
   }
 
   public getAuthors(): Observable<Author[]> {
-    const authors$ = this.httpClient.get(`${authorApi}`).pipe(map((authors: Author[]) => {
-      return authors.map(val => new Author(val));
-    }));
+    const authors$ = this.httpClient.get(`${authorApi}`).pipe(
+      map((authors: Author[]) => {
+        return authors.map((val) => new Author(val));
+      })
+    );
     return authors$;
   }
 }
