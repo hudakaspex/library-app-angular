@@ -31,6 +31,8 @@ import { AutoCompleteType } from "./models/auto-complete-type.enum";
 import { AutoCompleteService } from "./services/auto-complete.service";
 import { Utils } from "../utils";
 import { ToastrService } from "ngx-toastr";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: "auto-complete",
@@ -44,6 +46,8 @@ import { ToastrService } from "ngx-toastr";
     MatLabel,
     MatInputModule,
     ReactiveFormsModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   providers: [AutoCompleteService],
 })
@@ -57,6 +61,7 @@ export class AutoCompleteComponent implements OnChanges {
   @Input() appearance: MatFormFieldAppearance = "outline";
   @Input() initialVal: string;
   @Output("onSelectOption") selectOption = new EventEmitter();
+  @Output("onClear") clear = new EventEmitter();
 
   inputCtrl: FormControl = new FormControl();
   filteredOptions$ = this.inputCtrl.valueChanges.pipe(
@@ -93,6 +98,11 @@ export class AutoCompleteComponent implements OnChanges {
     if (this.clearOnSelect) {
       this.inputCtrl.reset(null, { onlySelf: true, emitEvent: true });
     }
+  }
+
+  public onClear() {
+    this.inputCtrl.reset(null, { onlySelf: true, emitEvent: true });
+    this.clear.emit();
   }
 
   displayFn(val: any): string {

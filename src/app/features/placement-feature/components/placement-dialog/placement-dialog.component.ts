@@ -17,6 +17,7 @@ import { AutoCompleteComponent } from "app/shared/auto-complete/auto-complete.co
 import { AutoCompleteType } from "app/shared/auto-complete/models/auto-complete-type.enum";
 import { Shelves } from "app/features/shelves-feature/core/models/shelves.model";
 import { Book } from "app/features/book-feature/core/models/book.model";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-placement-dialog",
@@ -34,6 +35,7 @@ export class PlacementDialogComponent {
   private placementService = inject(PlacementService);
   private dialogRef = inject(MatDialogRef);
   private data = inject(MAT_DIALOG_DATA);
+  private toastr = inject(ToastrService);
   public isFormValid = signal(false);
   public placement: WritableSignal<Placement>;
   public formConfig: FieldConfig[] = [];
@@ -80,6 +82,11 @@ export class PlacementDialogComponent {
     this.selectedBookId.set(book.key);
   }
 
+  public onClearBook() {
+    this.selectedBookId.set(null);
+    this.isFormValid.set(false);
+  }
+
   private shelvesOptions(): Observable<{ label: string; value: string }[]> {
     return this.placementService.getShelves().pipe(
       map((result: any) => result.data),
@@ -99,6 +106,8 @@ export class PlacementDialogComponent {
         return placement;
       });
       this.dialogRef.close(this.placement());
+    } else {
+      this.toastr.error("Please fill all required fields", "Error");
     }
   }
 

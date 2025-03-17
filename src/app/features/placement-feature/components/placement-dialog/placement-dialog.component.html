@@ -1,9 +1,4 @@
-<app-dialog
-  dialogTitle="Placement"
-  [disabledSave]="!isFormValid()"
-  (onSave)="onSave()"
-  (onCancel)="onCancel()"
->
+<app-dialog dialogTitle="Placement" (onSave)="onSave()" (onCancel)="onCancel()">
   <div CONTENT>
     <generic-form
       [fieldConfigs]="formConfig"
@@ -20,6 +15,7 @@
             (onSelectOption)="onSelectBook($event)"
             [clearOnSelect]="false"
             [initialVal]="placement()?.book?.title"
+            (onClear)="onClearBook()"
           ></auto-complete>
         </div>
       </div>
