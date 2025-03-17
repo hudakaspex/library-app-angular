@@ -1,3 +1,4 @@
 export const enum AutoCompleteType {
-    BOOK
+  BOOK,
+  BOOK_NOT_IN_PLACEMENT,
 }

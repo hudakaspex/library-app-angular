@@ -14,7 +14,7 @@
     [displayWith]="displayFn"
   >
     @for (option of filteredOptions$ | async; track option) {
-    <mat-option [value]="option">{{ option.label }}</mat-option>
+      <mat-option [value]="option">{{ option.label }}</mat-option>
     }
   </mat-autocomplete>
 </mat-form-field>

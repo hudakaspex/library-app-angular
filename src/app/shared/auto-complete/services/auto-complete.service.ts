@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 export class AutoCompleteService {
   private httpClient = inject(HttpClient);
   private bookApi = "/api/books/autocomplete";
+  private bookNotInPlacementApi = "/api/books/autocomplete/notInPlacement";
 
   public getOptionByType(
     type: AutoCompleteType,
@@ -19,6 +20,11 @@ export class AutoCompleteService {
       case AutoCompleteType.BOOK:
         return this.httpClient.get<any[]>(
           `${environment.serverUrl}${this.bookApi}`,
+          { params }
+        );
+      case AutoCompleteType.BOOK_NOT_IN_PLACEMENT:
+        return this.httpClient.get<any[]>(
+          `${environment.serverUrl}${this.bookNotInPlacementApi}`,
           { params }
         );
     }

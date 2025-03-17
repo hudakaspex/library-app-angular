@@ -37,11 +37,13 @@ export class PlacementDialogComponent {
   public isFormValid = signal(false);
   public placement: WritableSignal<Placement>;
   public formConfig: FieldConfig[] = [];
-  public autoCompleteType = AutoCompleteType.BOOK;
+  public autoCompleteType = AutoCompleteType.BOOK_NOT_IN_PLACEMENT;
+  private selectedBookId = signal(null);
 
   constructor() {
     const placement = this.data ? this.data : new Placement();
     this.placement = signal(placement);
+    this.selectedBookId.set(placement.book?.id);
     this.initFormConfig();
   }
 
@@ -53,6 +55,7 @@ export class PlacementDialogComponent {
         label: "Shelf",
         name: "shelves_id",
         validators: [{ type: "required", errorMessage: "Shelf is required" }],
+        value: this.placement().shelves?.id,
       },
       {
         type: "input",
@@ -73,11 +76,8 @@ export class PlacementDialogComponent {
     ];
   }
 
-  public onSelectBook(book: any) {
-    this.placement.update((placement) => {
-      placement.book = new Book({ id: book.key });
-      return placement;
-    });
+  public onSelectBook(book: { key: number; value: string }) {
+    this.selectedBookId.set(book.key);
   }
 
   private shelvesOptions(): Observable<{ label: string; value: string }[]> {
@@ -95,6 +95,7 @@ export class PlacementDialogComponent {
       this.placement.update((placement) => {
         placement.id = this.data?.id;
         placement.shelves = new Shelves({ id: placement["shelves_id"] });
+        placement.book = new Book({ id: this.selectedBookId() });
         return placement;
       });
       this.dialogRef.close(this.placement());

@@ -11,14 +11,15 @@
       (formStatus)="isFormValid.set($event)"
       (formChanges)="placement.set($event)"
     >
-      <div CUSTOM_FIELD class="w-100">
-        <div class="col-6">
+      <div CUSTOM_FIELD class="col-6">
+        <div class="w-100">
           <auto-complete
-            label="Search Books"
+            label="Book"
             placeholder="Search ..."
             [autoCompleteType]="autoCompleteType"
             (onSelectOption)="onSelectBook($event)"
             [clearOnSelect]="false"
+            [initialVal]="placement()?.book?.title"
           ></auto-complete>
         </div>
       </div>

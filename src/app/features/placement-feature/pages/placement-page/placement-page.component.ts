@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit, ViewContainerRef } from "@angular/core";
 import { GeneralTableComponent } from "app/shared/general-table/general-table.component";
 import { TableColumn } from "app/shared/general-table/models/table-column.model";
-import { filter, Observable, shareReplay, switchMap } from "rxjs";
+import { filter, map, Observable, shareReplay, switchMap } from "rxjs";
 import { Placement } from "../../core/models/placement.model";
 import { PlacementService } from "../../core/services/placement.service";
 import { PageEvent } from "@angular/material/paginator";
@@ -28,7 +28,7 @@ export class PlacementPageComponent {
     { label: "Shelf", propName: "shelf", type: "text" },
     { label: "Level", propName: "level", type: "number" },
     { label: "Section", propName: "section", type: "number" },
-    { label: "Book", propName: "book", type: "text" },
+    { label: "Book", propName: "bookName", type: "text" },
   ];
 
   constructor(private viewContainerRef: ViewContainerRef) {
@@ -36,7 +36,17 @@ export class PlacementPageComponent {
   }
 
   private initData() {
-    this.data$ = this.placementService.placements$().pipe(shareReplay(1));
+    this.data$ = this.placementService.placements$().pipe(
+      map((data) => {
+        data.data = data.data.map((placement) => {
+          placement["bookName"] = placement.book?.title;
+          placement["shelf"] = placement.shelves?.label;
+          return placement;
+        });
+        return data;
+      }),
+      shareReplay(1)
+    );
   }
 
   public onAddEvent() {
