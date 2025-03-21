@@ -9,7 +9,7 @@
       [fieldConfigs]="formConfig"
       (submitForm)="onSave()"
       (formStatus)="isFormValid.set($event)"
-      (formChanges)="loan.set($event)"
+      (formChanges)="onFormChange($event)"
     >
       <div CUSTOM_FIELD class="w-100">
         <div class="col-12">
